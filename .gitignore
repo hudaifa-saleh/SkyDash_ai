@@ -130,4 +130,6 @@ dmypy.json
 
 
 sky_ai/static
+sky_ai/static/admin/css
+sky_ai/static/admin/js
 venv
