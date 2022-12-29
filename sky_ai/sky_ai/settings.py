@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "landing.apps.LandingConfig",
+    "landing",
 ]
 
 MIDDLEWARE = [
@@ -56,7 +56,7 @@ ROOT_URLCONF = "sky_ai.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [os.path.join(BASE_DIR, "templates")],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -116,9 +116,21 @@ USE_TZ = True
 
 # LOGIN_URL LOGIN_REDIRECT_URL
 
-LOGIN_URL = "/login/"
+# LOGIN_URL = "/login/"
 
-LOGIN_REDIRECT_URL = "/"
+# LOGIN_REDIRECT_URL = "/"
+
+# django email settings backend
+# EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+
+# # django email settings
+# EMAIL_HOST = "localhost"
+# EMAIL_PORT = 587
+# EMAIL_HOST_USER = ""
+# EMAIL_HOST_PASSWORD = ""
+# EMAIL_USE_TLS = True
+# DEFAULT_FROM_EMAIL = ""
+
 
 # LOGIN_URL_ERROR_MESSAGE = "Please enter a correct username and password."
 
@@ -127,9 +139,10 @@ LOGIN_REDIRECT_URL = "/"
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_URL = "static/"
-STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles/")
-STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
+STATIC_URL = "/static/"
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "static/")]
+# STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+
 
 MEDIA_URL = "/uploads/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "uploads")
