@@ -4,4 +4,4 @@ from django.shortcuts import render
 
 
 def dashboard(request):
-     return render(request, 'dashboard/layouts-fluid.html')
+     return render(request, 'dashboard/index.html')
