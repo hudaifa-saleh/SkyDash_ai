@@ -30,6 +30,7 @@ INSTALLED_APPS = [
     "landing",
     "authantication",
     "dashboard",
+    "crispy_forms",
 ]
 
 MIDDLEWARE = [
