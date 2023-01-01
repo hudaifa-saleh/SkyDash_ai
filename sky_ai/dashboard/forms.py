@@ -5,6 +5,16 @@ from crispy_forms.layout import Layout, Submit, Row, Column
 
 
 class ProfileForm(forms.Form):
+    first_name = forms.CharField(
+        required=True,
+        label="First Name",
+        widget=forms.TextInput(attrs={"class": "form-control mb-3", "placeholder": "Enter First Name"}),
+    )
+    last_name = forms.CharField(
+        required=True,
+        label="Last Name",
+        widget=forms.TextInput(attrs={"class": "form-control mb-3", "placeholder": "Enter Last Name"}),
+    )
     address_line1 = forms.CharField(
         required=True,
         label="Address Line 1",
@@ -40,6 +50,7 @@ class ProfileForm(forms.Form):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.layout = Layout(
+            Row(Column("first_name", css_class="form-group col-md-6"), Column("last_name", css_class="form-group col-md-6")),
             Row(Column("address_line1", css_class="form-group col-md-6"), Column("address_line2", css_class="form-group col-md-6")),
             Row(Column("city", css_class="form-group col-md-6"), Column("province", css_class="form-group col-md-6")),
             Row(Column("country", css_class="form-group col-md-6"), Column("postal_code", css_class="form-group col-md-6")),
@@ -49,3 +60,11 @@ class ProfileForm(forms.Form):
     class Meta:
         model = Profile
         fields = ["address_line1", "address_line2", "city", "province", "country", "postal_code"]
+
+    def save(self, *args, **kwargs):
+        user = self.instance.user
+        user.first_name = self.cleaned_data["first_name"]
+        user.last_name = self.cleaned_data["last_name"]
+        user.save()
+        return super(ProfileForm, self).save(*args, **kwargs)
+        
