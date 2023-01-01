@@ -3,8 +3,19 @@ from django.contrib.auth.models import User
 from django.contrib import auth
 from django.contrib.auth import authenticate  # , login, logout
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required, user_passes_test
 
 
+def anonymous_required(function=None, redirect_url=None):
+    if not redirect_url:
+        redirect_url = "dashboard"
+    actual_decorator = user_passes_test(lambda u: u.is_anonymous, login_url=redirect_url)
+    if function:
+        return actual_decorator(function)
+    return actual_decorator
+
+
+@anonymous_required
 def login_(request):
     if request.method == "POST":
         email = request.POST["email"].replace("", "").lower()
@@ -21,6 +32,7 @@ def login_(request):
     return render(request, "auth/auth-login-basic.html", {})
 
 
+@anonymous_required
 def register(request):
     if request.method == "POST":
         email = request.POST["email"].replace("", "").lower()
@@ -41,3 +53,10 @@ def register(request):
         return redirect("index")
 
     return render(request, "auth/auth-register-basic.html", {})
+
+
+@login_required
+def logout_(request):
+    auth.logout(request)
+    messages.success(request, "You have been logged out")
+    return redirect("login")
