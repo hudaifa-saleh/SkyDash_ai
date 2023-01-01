@@ -25,9 +25,16 @@
                     <li class="nav-item">
                          <a class="nav-link" href="contact.html">Contact</a>
                     </li>
+                    {% if user.is_authenticated %}
                     <li class="nav-item">
-                         <a class="btn btn-primary ml-lg-2" href="#">Free Analytics</a>
+                         <a class="btn btn-primary ml-lg-2" href="#">Dashboard</a>
                     </li>
+                    {% else %}
+                    <li class="nav-item">
+                         <a class="btn btn-primary ml-lg-2" href="{% url 'register' %}">Register</a>
+                    </li>
+                    {% endif %}
+
                </ul>
           </div>
 
