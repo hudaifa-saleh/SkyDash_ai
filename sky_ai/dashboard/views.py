@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django.contrib.auth.decorators import login_required, user_passes_test
 from .forms import *
 from .models import *
@@ -12,13 +12,18 @@ def dashboard(request):
 
 def profile(request):
     context = {}
+    user = request.user
+    profile = user.profile
+
     if request.method == "GET":
-        form = ProfileForm()
+        form = ProfileForm(instance=profile)
         context["form"] = form
         return render(request, "dashboard/profile.html", context)
-    
+
     if request.method == "POST":
-        form = ProfileForm(request.POST)
+        form = ProfileForm(request.POST, instance=profile)
         if form.is_valid():
-            pass
+            form.save()
+            return redirect("profile")
+
     return render(request, "dashboard/profile.html", context)
