@@ -7,5 +7,3 @@ We leverage the latest advancements in AI technology to generate content for all
 With SkyDash AI, you can create original content at scale, quickly, and more affordably. Our AI powered system produces content that is concise, accurate, and reliable. We also offer a full suite of content creation tools to help you create, manage, and improve your blogs. 
 
 This repository contains all the code related to SkyDash AI's blog writing solutions. Feel free to explore the code and see how our AI-driven content creation works. We welcome contributions and feedback, so don't hesitate to reach out if you have any questions. Thank you for visiting SkyDash AI and we hope you find the content creation solution you need.
-
-/Users/hudaifa/Desktop/Screen Shot 2023-01-01 at 6.31.46 PM.png
