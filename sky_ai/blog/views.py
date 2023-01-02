@@ -42,16 +42,17 @@ def blogSection(request):
 
 @login_required
 def saveBlogTopic(request, blogTopic):
-    if "blogIdea" in request.session and "keyword" in request.session and "audience" in request.session and "blogTopics" in request.session:
+    if "blogIdea" in request.session and "keywords" in request.session and "audience" in request.session and "blogTopics" in request.session:
         blog = Blog.objects.create(
-            blogIdea=request.session["blogIdea"],
             title=blogTopic,
-            audience=request.session["audience"],
+            blogIdea=request.session["blogIdea"],
             keywords=request.session["keywords"],
+            audience=request.session["audience"],
             profile=request.user.profile,
         )
+        blog.save()
         blogTopics = request.session["blogTopics"]
-        blogTopics.remove()
+        blogTopics.remove(blogTopic)
         request.session["blogTopics"] = blogTopics
         return redirect("blog-section")
     else:
@@ -60,4 +61,19 @@ def saveBlogTopic(request, blogTopic):
 
 @login_required
 def useBlogTopic(request, blogTopic):
-    pass
+    context = {}
+    if "blogIdea" in request.session and "keywords" in request.session and "audience" in request.session:
+        blogSections = genarateBlogtoSectionTitles(blogTopic, request.session["audience"], request.session["keywords"])
+    else:
+        return redirect("blog-topic")
+
+    if len(blogSections) > 0:
+        # adding the section to the sessions
+        request.session["blogSections"] = blogSections
+        # adding the section to the contexts
+        context["blogSections"] = blogSections
+    else:
+        messages.error(request, "Oops you beat the AI try again.")
+        return redirect("use-blog-topic")
+
+    return render(request, "dashboard/selact-blog_section.html", context)

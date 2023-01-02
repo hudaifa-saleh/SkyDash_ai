@@ -36,10 +36,12 @@ def genarateBlogtoTpicIdeas(audience, topic, keywords):
     return blog_topics
 
 
-def genarateBlogSectionHeadings(topic, keywords):
+def genarateBlogtoSectionTitles(audience, topic, keywords):
+    blog_section = []
+
     response = openai.Completion.create(
         model="text-davinci-003",
-        prompt="Generate Blog section heading and section titles  based on the following blog section topic.Topic:{}\nkeywords {} \n*".format(topic, keywords),
+        prompt="Generate Adequate blog section titles for the provided blog topic audience and keywords: {}\naudience \nkeywords {} \n*".format(audience, topic, keywords),
         temperature=0.8,
         max_tokens=300,
         top_p=1,
@@ -51,10 +53,37 @@ def genarateBlogSectionHeadings(topic, keywords):
         if len(response["choices"]) > 0:
             res = response["choices"][0]["text"]
         else:
-            res = None
+            res = []
     else:
-        res = None
-    return res
+        res = []
+    a_list = res.split("*")
+    if len(a_list) > 0:
+        for blog in a_list:
+            blog_section.append(blog)
+    else:
+        res = []
+    return blog_section
+
+
+# def genarateBlogSectionHeadings(topic, keywords):
+#     response = openai.Completion.create(
+#         model="text-davinci-003",
+#         prompt="Generate Blog section heading and section titles  based on the following blog section topic.Topic:{}\nkeywords {} \n*".format(topic, keywords),
+#         temperature=0.8,
+#         max_tokens=300,
+#         top_p=1,
+#         best_of=1,
+#         frequency_penalty=0,
+#         presence_penalty=0,
+#     )
+#     if "choices" in response:
+#         if len(response["choices"]) > 0:
+#             res = response["choices"][0]["text"]
+#         else:
+#             res = None
+#     else:
+#         res = None
+#     return res
 
 
 # topic = "summer fashion ideas"
