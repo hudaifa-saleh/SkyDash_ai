@@ -8,7 +8,9 @@ from dashboard.models import Profile
 
 
 class Blog(models.Model):
+    topic = models.CharField(max_length=100)
     title = models.CharField(max_length=100)
+    audience = models.CharField(max_length=100, blank=True, null=True) 
     keywords = models.CharField(max_length=100, blank=True, null=True)
     word_count = models.CharField(max_length=100, blank=True, null=True)
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
