@@ -9,6 +9,8 @@ urlpatterns = [
     path("landing/", include("landing.urls")),
     path("auth/", include("authantication.urls")),
     path("dashboard/", include("dashboard.urls")),
+    path("blog/", include("blog.urls")),
+    
 ]
 
 if settings.DEBUG:
