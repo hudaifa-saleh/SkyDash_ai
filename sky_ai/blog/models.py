@@ -8,7 +8,7 @@ from dashboard.models import Profile
 
 
 class Blog(models.Model):
-    topic = models.CharField(max_length=100)
+    blogIdea = models.CharField(max_length=100)
     title = models.CharField(max_length=100)
     audience = models.CharField(max_length=100, blank=True, null=True) 
     keywords = models.CharField(max_length=100, blank=True, null=True)

@@ -7,12 +7,12 @@ openai.api_key = settings.OPENAI_API_KEY
 # blog_topics = []
 
 
-def genatate_blog_topic_ideas(topic, keywords):
+def genarateBlogtoTpicIdeas(audience, topic, keywords):
     blog_topics = []
 
     response = openai.Completion.create(
         model="text-davinci-003",
-        prompt="Generate Blog topic ideas on the following topic: {}\nkeywords {} \n*".format(topic, keywords),
+        prompt="Generate 6 Blog topic ideas on the following topic: {}\naudience \nkeywords {} \n*".format(audience, topic, keywords),
         temperature=0.8,
         max_tokens=300,
         top_p=1,
@@ -36,7 +36,7 @@ def genatate_blog_topic_ideas(topic, keywords):
     return blog_topics
 
 
-def genatate_blog_section_headings(topic, keywords):
+def genarateBlogSectionHeadings(topic, keywords):
     response = openai.Completion.create(
         model="text-davinci-003",
         prompt="Generate Blog section heading and section titles  based on the following blog section topic.Topic:{}\nkeywords {} \n*".format(topic, keywords),
