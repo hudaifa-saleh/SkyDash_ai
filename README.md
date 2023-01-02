@@ -24,6 +24,10 @@ This repository contains all the code related to SkyDash AI's blog writing solut
 6. Edit and proofread: Review the post for any errors or inconsistencies, and make sure it is up to your standards before publishing it.
 
 
+https://user-images.githubusercontent.com/94120600/210272876-58183562-3e1a-4b08-87ce-66a20735e3ad.mov
+
+
+
 
 
 ## Backend
