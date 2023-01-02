@@ -198,9 +198,17 @@
                                                        <div class="d-flex">
                                                             <div class="flex-shrink-0 me-3">
                                                                  <div class="avatar avatar-online">
+                                                                      
+                                                                      {% if  %}
+                                                                      <img src="{{ user.profile_image.url }}"
+                                                                      alt class="w-px-40 h-auto rounded-circle" />
+                                                                      {% else %}
+                                                                           
                                                                       <img src="{% static '/assets/img/avatars/1.png' %}"
                                                                            alt class="w-px-40 h-auto rounded-circle" />
-                                                                 </div>
+                                                                      {% endif %}
+                                                                 
+                                                                      </div>
                                                             </div>
                                                             <div class="flex-grow-1">
                                                                  <span class="fw-semibold d-block">{{ user.email }}</span>

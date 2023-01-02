@@ -24,8 +24,11 @@
                     <!-- Account -->
                     <div class="card-body">
                          <div class="d-flex align-items-start align-items-sm-center gap-4">
+                              
+                              {% if user.profile_image.name %}     
                               <img src="{{ user.profile_image.url }}" alt="{{ user.first_name}} {{ user.last_name }}"
                                    class="d-block rounded" height="100" />
+                              {% endif %}
                               <div class="button-wrapper">
                                    <form action='#' method="POST" enctype='multipart/form-data'>
                                         {% csrf_token %}
