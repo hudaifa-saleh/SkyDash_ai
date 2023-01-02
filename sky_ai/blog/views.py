@@ -11,7 +11,7 @@ def blog_topic(request):
         blogTopics = genatate_blog_topic_ideas(blogIdea, keywords)
         if len(blogTopics) > 0:
             request.session["blogTopics"] = blogTopics
-            return redirect("blog_section")
+            return redirect("blog-section")
         else:
             messages.error(request, "Try again later")
     return render(request, "dashboard/blog_topic.html", context)
@@ -27,3 +27,7 @@ def blog_section(request):
     context = {}
     context["blogTopics"] = request.session["blogTopics"]
     return render(request, "dashboard/blog_section.html", context)
+
+
+# 'Cool gadgets ypu get right now '
+# 'free gadgets, gadgets, cheap'

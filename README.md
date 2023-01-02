@@ -22,3 +22,5 @@ This repository contains all the code related to SkyDash AI's blog writing solut
 5. Use AI to write the blog post: Use an AI-powered blog post generator to create the complete post.
 
 6. Edit and proofread: Review the post for any errors or inconsistencies, and make sure it is up to your standards before publishing it.
+
+![]{/Users/hudaifa/Desktop/Screen Recording 2023-01-02 at 10.07.12 PM.mov}

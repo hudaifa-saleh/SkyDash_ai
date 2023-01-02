@@ -39,7 +39,7 @@ def genatate_blog_topic_ideas(topic, keywords):
 def genatate_blog_section_headings(topic, keywords):
     response = openai.Completion.create(
         model="text-davinci-003",
-        prompt="Generate Blog section heading and section titles  based on the following blog section topic. \nTopic: {}\nkeywords {} \n*".format(topic, keywords),
+        prompt="Generate Blog section heading and section titles  based on the following blog section topic.Topic:{}\nkeywords {} \n*".format(topic, keywords),
         temperature=0.8,
         max_tokens=300,
         top_p=1,
