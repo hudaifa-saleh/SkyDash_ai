@@ -27,9 +27,11 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "landing",
-    "authantication",
+    # Our apps 
+    "landing.apps.LandingConfig",
+    "authantication.apps.AuthanticationConfig",
     "dashboard.apps.DashboardConfig",
+    "blog.apps.BlogConfig",
     "crispy_forms",
 ]
 
