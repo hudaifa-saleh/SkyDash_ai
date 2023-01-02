@@ -8,6 +8,8 @@ openai.api_key = settings.OPENAI_API_KEY
 
 
 def genatate_blog_topic_ideas(topic, keywords):
+    blog_topics = []
+
     response = openai.Completion.create(
         model="text-davinci-003",
         prompt="Generate Blog topic ideas on the following topic: {}\nkeywords {} \n*".format(topic, keywords),
@@ -22,10 +24,16 @@ def genatate_blog_topic_ideas(topic, keywords):
         if len(response["choices"]) > 0:
             res = response["choices"][0]["text"]
         else:
-            res = None
+            res = []
     else:
-        res = None
-    return res
+        res = []
+    a_list = res.split("*")
+    if len(a_list) > 0:
+        for blog in a_list:
+            blog_topics.append(blog)
+    else:
+        res = []
+    return blog_topics
 
 
 def genatate_blog_section_headings(topic, keywords):
