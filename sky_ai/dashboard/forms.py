@@ -1,7 +1,7 @@
 from django import forms
 from .models import *
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Submit, Row, Column
+from crispy_forms.layout import Layout, Submit, Row, Column, Field
 
 
 class ProfileForm(forms.ModelForm):
@@ -47,14 +47,15 @@ class ProfileForm(forms.ModelForm):
     )
 
     def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop("user")
         super().__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.layout = Layout(
-            Row(Column("first_name", css_class="form-group col-md-6"), Column("last_name", css_class="form-group col-md-6")),
+            Row(Column(Field("first_name", value=self.user.first_name), css_class="form-group col-md-6"), Column(Field("last_name", value=self.user.last_name),css_class="form-group col-md-6")),
             Row(Column("address_line1", css_class="form-group col-md-6"), Column("address_line2", css_class="form-group col-md-6")),
             Row(Column("city", css_class="form-group col-md-6"), Column("province", css_class="form-group col-md-6")),
             Row(Column("country", css_class="form-group col-md-6"), Column("postal_code", css_class="form-group col-md-6")),
-            Submit("submit", "Sign in", css_class="btn btn-primary me-2"),
+            Submit("submit", "Save Changes", css_class="btn btn-primary me-2"),
         )
 
     class Meta:
@@ -63,8 +64,8 @@ class ProfileForm(forms.ModelForm):
 
     def save(self, *args, **kwargs):
         user = self.instance.user
-        user.first_name = self.cleaned_data["first_name"]
-        user.last_name = self.cleaned_data["last_name"]
+        user.first_name = self.cleaned_data.get("first_name")
+        user.last_name = self.cleaned_data.get("last_name")
         user.save()
         return super(ProfileForm, self).save(*args, **kwargs)
 

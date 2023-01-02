@@ -14,8 +14,9 @@ def dashboard(request):
 def profile(request):
     context = {}
 
+
     if request.method == "GET":
-        form = ProfileForm()
+        form = ProfileForm(user=request.user)
         image_form = ProfileImageForm()
         context["form"] = form
         context["image_form"] = image_form
