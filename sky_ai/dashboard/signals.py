@@ -5,11 +5,24 @@ from .models import Profile
 
 
 @receiver(post_save, sender=User)
-def create_profile(sender, instace, created, *args, **kwargs):
+def create_user_profile(sender, instance, created, **kwargs):
     if created:
-        Profile.objects.create(user=instace)
+        Profile.objects.create(user=instance)
 
 
 @receiver(post_save, sender=User)
-def save_profile(sender, instace, *args, **kwargs):
-    instace.profile.save()
+def save_user_profile(sender, instance, **kwargs):
+    instance.profile.save()
+
+
+# def create_profile(sender, instance, created, **kwargs):
+#     if created:
+#         Profile.objects.create(user=instance)
+
+
+# def save_profile(sender, instance, **kwargs):
+#     instance.profile.save()
+
+
+# post_save.connect(create_profile, sender=User)
+# post_save.connect(save_profile, sender=User)

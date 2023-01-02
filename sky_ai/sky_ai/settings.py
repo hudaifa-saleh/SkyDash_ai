@@ -29,7 +29,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "landing",
     "authantication",
-    "dashboard",
+    "dashboard.apps.DashboardConfig",
     "crispy_forms",
 ]
 
