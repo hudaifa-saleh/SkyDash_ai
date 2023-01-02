@@ -23,4 +23,4 @@ This repository contains all the code related to SkyDash AI's blog writing solut
 
 6. Edit and proofread: Review the post for any errors or inconsistencies, and make sure it is up to your standards before publishing it.
 
-! []{/Users/hudaifa/Desktop/Screen Recording 2023-01-02 at 10.07.12 PM.mov}
+! []{IMAGe/Screen Recording 2023-01-02 at 10.07.12 PM.mov}
