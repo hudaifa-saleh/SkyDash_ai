@@ -24,3 +24,19 @@ This repository contains all the code related to SkyDash AI's blog writing solut
 6. Edit and proofread: Review the post for any errors or inconsistencies, and make sure it is up to your standards before publishing it.
 
 
+
+
+## Backend
+
+- Django
+- postgesql
+- django-crispy-forms
+- black
+- openai
+
+## Frontend
+- html
+- css
+- jacescript
+- bootstrab
+- template
