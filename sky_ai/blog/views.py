@@ -1,3 +1,8 @@
 from django.shortcuts import render
 
-# Create your views here.
+
+
+def blog_topic(request):
+     context = {}
+     
+     return render(request, 'blog/blog_topic.html', context)

@@ -1,0 +1,41 @@
+{% extends 'layouts/dashboard.html' %}
+{% load static %}
+
+{% block body %}
+
+<div class="container-fluid flex-grow-1 container-p-y">
+     <div class="layout-demo-wrapper">
+          <div class='row'>
+               <div class="col-lg-1">
+                    <div class="col-lg-10">
+                         <div class="row">
+                              <div class="col-lg-6">
+                                   <img src="{% static 'img/create_blog.svg' %}" alt='Create Blog'>
+                              </div>
+                              <div class="col-lg-6">
+                                   <h2 class='mb-3'> Enter ypur blog idea below to generate blog topic suggestions</h2>
+                                   <form class='' action='' method=post>
+                                        {% csrf_token %}
+                                        <div class="mb-3">
+                                             <label for="blogIdea" class="form-label">Blog Idea</label>
+                                             <input type="text" class="form-control" name="blogIdea"
+                                                  placeholder="Enter the Blog idea" required />
+                                        </div>
+                                        <div class="mb-3">
+                                             <label for="keywords" class="form-label">keywords</label>
+                                             <input type="text" class="form-control" name="keywords"
+                                                  placeholder="Enter the Blog keywords " required />
+                                        </div>
+                                        <div class="mb-3">
+                                             <button class="btn btn-primary d-grid w-100" type="submit">generate blog topic</button>
+                                        </div>
+                                   </form>
+                              </div>
+                         </div>
+                    </div>
+               </div>
+          </div>
+     </div>
+</div>
+
+{% endblock body %}
