@@ -40,16 +40,20 @@
                               </div>
                               <div class="card-body">
                                    <ul class="p-0 m-0">
-                                        {% for blog in emptyBlog %}      
+                                        {% for blog in emptyBlog %}
                                         <li class="d-flex mb-4 pb-1">
                                              <div
                                                   class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
                                                   <div class="me-2">
-                                                       <small class="text-muted d-block mb-1">{{ blog.blogIdea }}</small>
-                                                       <h6 class="mb-0">{{ blog.title }}</h6>
+                                                       <small
+                                                            class="text-muted d-block mb-1">{{ blog.blogIdea }}</small>
+                                                       <h6 class="mb-0"><a
+                                                                 href="{% url 'create-blog-from-topic' blog.uniqueId %}">{{ blog.title }}</a>
+                                                       </h6>
                                                   </div>
                                                   <div class="user-progress d-flex align-items-center gap-1">
-                                                       <button class="btn btn-danger btn-sm">DELETE</button>
+                                                       <a href="{% url 'delete-blog-topic' blog.uniqueId %}"><button
+                                                                 class="btn btn-danger btn-sm">DELETE</button></a>
                                                   </div>
                                              </div>
                                         </li>

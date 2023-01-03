@@ -83,6 +83,58 @@ def saveBlogTopic(request, blogTopic):
 
 
 @login_required
+def deleteBlogTopic(request, uniqueId):
+    try:
+        blog = Blog.objects.get(uniqueId=uniqueId)
+        if blog.profile == request.user.profile:
+            blog.delete()
+            return redirect("dashboard")
+        else:
+            messages.error(request, "Somthing went worng try again.")
+            return redirect("dashboard")
+    except:
+        messages.error(request, "Blog not found")
+        return redirect("dashboard")
+
+
+@login_required
+def creatBlogFromTopic(request, uniqueId):
+    context = {}
+    try:
+        blog = Blog.objects.get(uniqueId=uniqueId)
+    except:
+        messages.error(request, "Blog not found")
+        return redirect("dashboard")
+
+    blogSections = genarateBlogtoSectionTitles(blog.title, blog.audience, blog.keywords)
+
+    if len(blogSections) > 0:
+        # adding the section to the sessions
+        request.session["blogSections"] = blogSections
+        # adding the section to the contexts
+        context["blogSections"] = blogSections
+    else:
+        messages.error(request, "Oops you beat the AI try again.")
+        return redirect("use-blog-topic")
+
+    if request.method == "POST":
+        for val in request.POST:
+            if not "csrfmiddlewaretoken" in val:
+                # generating blog section details
+                section = genarateBlogSectionDetail(blog.title, val, blog.audience, blog.keywords)
+                #  create a database record
+                blogSec = BlogSection.objects.create(
+                    title=val,
+                    body=section,
+                    blog=blog,
+                )
+                blogSec.save()
+        return redirect("view-blog-generator", slug=blog.slug)
+
+    return render(request, "dashboard/selact-blog_section.html", context)
+
+
+@login_required
 def useBlogTopic(request, blogTopic):
     context = {}
     if "blogIdea" in request.session and "keywords" in request.session and "audience" in request.session:
@@ -110,7 +162,7 @@ def useBlogTopic(request, blogTopic):
 
     if request.method == "POST":
         for val in request.POST:
-            if not "csrfmiddlewartoken" in val:
+            if not "csrfmiddlewaretoken" in val:
                 # generating blog section details
                 section = genarateBlogSectionDetail(blogTopic, val, request.session["audience"], request.session["keywords"])
                 #  create a database record
