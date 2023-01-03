@@ -38,7 +38,7 @@ class BlogSection(models.Model):
     title = models.CharField(max_length=100)
     body = models.TextField(blank=True, null=True)
     blog = models.ForeignKey(Blog, on_delete=models.CASCADE)
-    word_count = models.CharField(max_length=100)
+    word_count = models.CharField(max_length=100, blank=True, null=True)
 
     uniqueId = models.CharField(null=True, blank=True, max_length=100)
     slug = models.SlugField(max_length=500, unique=True, blank=True, null=True)
