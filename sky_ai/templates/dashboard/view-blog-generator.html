@@ -1,0 +1,28 @@
+{% extends 'layouts/dashboard.html' %}
+{% load static %}
+
+{% block body %}
+
+<div class="container-fluid flex-grow-1 container-p-y">
+     <div class="layout-demo-wrapper">
+          <div class='row'>
+               <div class="col-lg-1">
+                    <div class="col-lg-10">
+                         <h2 class="mb-3">{{ blog.title }}</h2>
+                         <h5><span class="badge bg-primery">{{ blog.keywords }}</span></h5>
+                         {% for section in blogSection %}
+                         <div class="mt-3">
+                              <h3>{{ <section>.title }}</section>
+                              </h3>
+                              {{ section.body }}
+                         </div>
+                         {% endfor %}
+                    </div>
+               </div>
+          </div>
+     </div>
+</div>
+
+
+
+{% endblock body %}

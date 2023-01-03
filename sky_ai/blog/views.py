@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from .functions import *
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, user_passes_test
-from .models import Blog
+from .models import Blog, BlogSection
 
 
 @login_required
@@ -85,4 +85,35 @@ def useBlogTopic(request, blogTopic):
         messages.error(request, "Oops you beat the AI try again.")
         return redirect("use-blog-topic")
 
+    if request.method == "POST":
+        for val in request.POST:
+            if not "csrfmiddlewartoken" in val:
+                # generating blog section details
+                section = genarateBlogSectionDetail(blogTopic, val, request.session["audience"], request.session["keywords"])
+                #  create a database record
+                blogSec = BlogSection.objects.create(
+                    title=val,
+                    body=section,
+                    blog=blog,
+                )
+                blogSec.save()
+        return redirect("view-blog-generator", slug=blog.slug)
+
     return render(request, "dashboard/selact-blog_section.html", context)
+
+
+@login_required
+def viewBlogGenerator(request, slug):
+    try:
+        blog = Blog.objects.get(slug=slug)
+    except:
+        messages.error(request, "Something went wrong")
+        return redirect("blog-topic")
+
+    blogSection = BlogSection.objects.filter(blog=blog)
+    context = {}
+    context["blog"] = blog
+    context["blogSections"] = blogSection
+    
+    return render(request, "dashboard/view-blog-generator.html", context)
+    

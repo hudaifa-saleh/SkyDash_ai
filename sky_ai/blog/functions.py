@@ -12,7 +12,7 @@ def genarateBlogtoTpicIdeas(audience, topic, keywords):
 
     response = openai.Completion.create(
         model="text-davinci-003",
-        prompt="Generate 6 Blog topic ideas on the following topic: {}\naudience \nkeywords {} \n*".format(audience, topic, keywords),
+        prompt="Generate 8 Blog topic ideas on the following topic: {}\naudience \nkeywords {} \n*".format(audience, topic, keywords),
         temperature=0.8,
         max_tokens=300,
         top_p=1,
@@ -63,6 +63,30 @@ def genarateBlogtoSectionTitles(audience, topic, keywords):
     else:
         res = []
     return blog_section
+
+
+def genarateBlogSectionDetail(blogTopic, sectionTopic, audience, keywords):
+    response = openai.Completion.create(
+        model="text-davinci-003",
+        prompt="Generate detailed blog section write up for the following blog section keading, using the blog title, audience and keywords provided.\nBlog Title: {}\nBlog Section Heading: {}\nBlog Title {}\nAudience: {}\nkeywords: {}\n".format(
+            blogTopic, sectionTopic, audience, keywords
+        ),
+        temperature=0.8,
+        max_tokens=500,
+        top_p=1,
+        best_of=1,
+        frequency_penalty=0,
+        presence_penalty=0,
+    )
+    if "choices" in response:
+        if len(response["choices"]) > 0:
+            res = response["choices"][0]["text"]
+            cleanedRes = res.replace("\n" "<br>")
+            return cleanedRes
+        else:
+            return ""
+    else:
+        return ""
 
 
 # def genarateBlogSectionHeadings(topic, keywords):
