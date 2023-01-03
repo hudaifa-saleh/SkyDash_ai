@@ -25,7 +25,7 @@ def home(request):
             emptyBlog.append(blog)
 
     context = {}
-    context["numBlogs"] = 4
+    context["numBlogs"] =len(completedBlog)
     context["monthCount"] = 1234
     context["countReset"] = "12 July 2023"
     context["emptyBlog"] = emptyBlog
