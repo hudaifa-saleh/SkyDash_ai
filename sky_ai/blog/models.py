@@ -10,7 +10,7 @@ from dashboard.models import Profile
 class Blog(models.Model):
     blogIdea = models.CharField(max_length=100)
     title = models.CharField(max_length=100)
-    audience = models.CharField(max_length=100, blank=True, null=True) 
+    audience = models.CharField(max_length=100, blank=True, null=True)
     keywords = models.CharField(max_length=100, blank=True, null=True)
     word_count = models.CharField(max_length=100, blank=True, null=True)
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
@@ -38,6 +38,7 @@ class BlogSection(models.Model):
     title = models.CharField(max_length=100)
     body = models.TextField(blank=True, null=True)
     blog = models.ForeignKey(Blog, on_delete=models.CASCADE)
+    word_count = models.CharField(max_length=100)
 
     uniqueId = models.CharField(null=True, blank=True, max_length=100)
     slug = models.SlugField(max_length=500, unique=True, blank=True, null=True)
@@ -55,4 +56,8 @@ class BlogSection(models.Model):
 
         self.slug = slugify("{} {}".format(self.title, self.uniqueId))
         self.last_updated = timezone.localtime(timezone.now())
+        # count words
+        if self.body:
+            x = len(self.body.split(" "))
+            self.word_count = str(x)
         super(BlogSection, self).save(*args, **kwargs)

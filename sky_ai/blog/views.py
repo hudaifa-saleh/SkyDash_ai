@@ -13,7 +13,13 @@ def home(request):
     for blog in blogs:
         sections = BlogSection.objects.filter(blog=blog)
         if sections.exists():
-            # blog.words = len(blog.title.split(" "))
+            # calculate blog worrds
+            blogwords = 0
+            for section in sections:
+                section.save()  # to be deleted
+                blogwords += int(section.word_count)
+            blog.word_count = str(blogwords)
+            blog.save()
             completedBlog.append(blog)
         else:
             emptyBlog.append(blog)
