@@ -1,15 +1,66 @@
 {% extends 'layouts/dashboard.html' %}
-{% comment %} {% load static %} {% endcomment %}
+{% load static %}
 
 {% block body %}
 
 <div class="content-wrapper">
      <div class="container-fluid flex-grow-1 container-p-y">
           <div class="layout-demo-wrapper">
-               <h1>You have reached the Dashboard page :)</h1>
+               <div class="row">
+                    <div class="col-lg-8">
+                         <div class="card">
+                              <div class="d-flex align-items-end row">
+                                   <div class="col-sm-7">
+                                        <div class="card-body">
+                                             <h4 class="card-title text-primary">congratulations {{ user.first_name }}
+                                             </h4>
+                                             <p class="mb-4">
+                                                  You have written <span class="fw-bold">{{ numBlogs }}</span>
+                                                  Blogs your words count for this month is <span
+                                                       class="fw-bold">{{ monthCount }}</span> words your count will
+                                                  reset on <span class="fw-bold">{{ countReset }}</span>
+                                             </p>
+                                             <a href="{% url 'blog-topic' %}"
+                                                  class="btn btn-sm btn-outline-primary">Write New Blog</a>
+                                        </div>
+                                   </div>
+                                   <div class="col-sm-5 text-center text-sm-left">
+                                        <div class="card-body pd-0 px-md-4">
+                                             <img src="{% static '/assets/img/illustrations/man-with-laptop-light.png' %}"
+                                                  alt="SkyGram.AI" height="140">
+                                        </div>
+                                   </div>
+                              </div>
+                         </div>
+                    </div>
+                    <div class="col-lg-4">
+                         <div class="card h-100">
+                              <div class="card-header d-flex align-items-center justify-content-between">
+                                   <h5 class="card-title m-0 me-2">Saved Blog </h5>
+                              </div>
+                              <div class="card-body">
+                                   <ul class="p-0 m-0">
+                                        {% for blog in emptyBlog %}      
+                                        <li class="d-flex mb-4 pb-1">
+                                             <div
+                                                  class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                                                  <div class="me-2">
+                                                       <small class="text-muted d-block mb-1">{{ blog.blogIdea }}</small>
+                                                       <h6 class="mb-0">{{ blog.title }}</h6>
+                                                  </div>
+                                                  <div class="user-progress d-flex align-items-center gap-1">
+                                                       <button class="btn btn-danger btn-sm">DELETE</button>
+                                                  </div>
+                                             </div>
+                                        </li>
+                                        {% endfor %}
+                                   </ul>
+                              </div>
+                         </div>
+                    </div>
+               </div>
           </div>
      </div>
 </div>
 
 {% endblock body %}
-     

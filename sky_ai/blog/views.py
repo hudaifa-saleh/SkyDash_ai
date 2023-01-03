@@ -6,6 +6,29 @@ from .models import Blog, BlogSection
 
 
 @login_required
+def home(request):
+    emptyBlog = []
+    completedBlog = []
+    blogs = Blog.objects.filter(profile=request.user.profile)
+    for blog in blogs:
+        sections = BlogSection.objects.filter(blog=blog)
+        if sections.exists():
+            # blog.words = len(blog.title.split(" "))
+            completedBlog.append(blog)
+        else:
+            emptyBlog.append(blog)
+
+    context = {}
+    context["numBlogs"] = 4
+    context["monthCount"] = 1234
+    context["countReset"] = "12 July 2023"
+    context["emptyBlog"] = emptyBlog
+    context["completedBlog"] = completedBlog
+
+    return render(request, "dashboard/index.html", context)
+
+
+@login_required
 def blogTopic(request):
     context = {}
     if request.method == "POST":
@@ -114,6 +137,5 @@ def viewBlogGenerator(request, slug):
     context = {}
     context["blog"] = blog
     context["blogSections"] = blogSection
-    
+
     return render(request, "dashboard/view-blog-generator.html", context)
-    

@@ -2,6 +2,7 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
+    path("dashboard/", views.home, name="dashboard"),
     path("topic/", views.blogTopic, name="blog-topic"),
     path("section/", views.blogSection, name="blog-section"),
     # saveing the blog topic for future use
