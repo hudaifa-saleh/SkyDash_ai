@@ -41,7 +41,7 @@ def genarateBlogtoSectionTitles(audience, topic, keywords):
 
     response = openai.Completion.create(
         model="text-davinci-003",
-        prompt="Generate Adequate blog section titles for the provided blog topic audience and keywords: {}\naudience \nkeywords {} \n*".format(audience, topic, keywords),
+        prompt="Generate Adequate blog section titles for the provided blog topic audience and keywords: {}\naudience \n{}keywords {}\n*".format(audience, topic, keywords),
         temperature=0.8,
         max_tokens=300,
         top_p=1,
@@ -68,7 +68,7 @@ def genarateBlogtoSectionTitles(audience, topic, keywords):
 def genarateBlogSectionDetail(blogTopic, sectionTopic, audience, keywords):
     response = openai.Completion.create(
         model="text-davinci-003",
-        prompt="Generate detailed blog section write up for the following blog section keading, using the blog title, audience and keywords provided.\nBlog Title: {}\nBlog Section Heading: {}\nBlog Title {}\nAudience: {}\nkeywords: {}\n".format(
+        prompt="Generate detailed blog section write up for the following blog section keading, using the blog title, audience and keywords provided.\nBlog Title: {}\nBlog Section Heading: {}\nBlog Title {}\nAudience: {}\nkeywords: \n".format(
             blogTopic, sectionTopic, audience, keywords
         ),
         temperature=0.8,
@@ -81,7 +81,7 @@ def genarateBlogSectionDetail(blogTopic, sectionTopic, audience, keywords):
     if "choices" in response:
         if len(response["choices"]) > 0:
             res = response["choices"][0]["text"]
-            cleanedRes = res.replace("\n" "<br>")
+            cleanedRes = res.replace("\n", "<br>")
             return cleanedRes
         else:
             return ""
