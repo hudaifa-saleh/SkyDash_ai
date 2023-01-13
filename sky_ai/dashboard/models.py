@@ -2,10 +2,11 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.template.defaultfilters import slugify
 from django.utils import timezone
-from django.urls import reverse
 from uuid import uuid4
 import os
 from django_resized import ResizedImageField
+from django.dispatch import receiver
+from django.db.models.signals import post_save
 
 
 class Profile(models.Model):
@@ -16,7 +17,7 @@ class Profile(models.Model):
     province = models.CharField(null=True, blank=True, max_length=100)
     country = models.CharField(null=True, blank=True, max_length=100)
     postal_code = models.CharField(null=True, blank=True, max_length=100)
-    profile_image = ResizedImageField(size=[500, 300], quality=90, upload_to="profile_image")
+    profile_image = ResizedImageField(size=[200, 200], quality=90, upload_to="profile_image")
     uniqueId = models.CharField(null=True, blank=True, max_length=100)
     slug = models.SlugField(max_length=500, unique=True, blank=True, null=True)
     date_created = models.DateTimeField(blank=True, null=True)
@@ -34,3 +35,14 @@ class Profile(models.Model):
         self.slug = slugify("{} {} {}".format(self.user.first_name, self.user.last_name, self.user.email))
         self.last_updated = timezone.localtime(timezone.now())
         super(Profile, self).save(*args, **kwargs)
+
+
+@receiver(post_save, sender=User)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        Profile.objects.create(user=instance)
+
+
+@receiver(post_save, sender=User)
+def save_user_profile(sender, instance, **kwargs):
+    instance.profile.save()

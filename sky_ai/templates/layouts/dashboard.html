@@ -133,14 +133,14 @@
                          <li class="menu-header small text-uppercase">
                               <span class="menu-header-text">Logout</span>
                          </li>
-                         
+
                          <li class="menu-item">
                               <a href="{% url 'logout' %}" class="menu-link">
                                    <i class="menu-icon tf-icons bx bx-home-circle"></i>
                                    <div data-i18n="Analytics">Logout</div>
                               </a>
                          </li>
-                         
+
 
 
 
@@ -188,8 +188,14 @@
                                         <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);"
                                              data-bs-toggle="dropdown">
                                              <div class="avatar avatar-online">
-                                                  <img src="{% static '/assets/img/avatars/1.png' %}" alt
+                                                  {% if  user.profile.profile_image.name %}
+                                                  <img src="{{ user.profile.profile_image.url }}" alt
                                                        class="w-px-40 h-auto rounded-circle" />
+                                                  {% else %}
+
+                                                  <img src="{% static '/assets/img/avatars/1.png' %}"
+                                                       alt class="w-px-40 h-auto rounded-circle" />
+                                                  {% endif %}
                                              </div>
                                         </a>
                                         <ul class="dropdown-menu dropdown-menu-end">
@@ -198,21 +204,22 @@
                                                        <div class="d-flex">
                                                             <div class="flex-shrink-0 me-3">
                                                                  <div class="avatar avatar-online">
-                                                                      
-                                                                      {% if  user.profile_image.name %}
-                                                                      <img src="{{ user.profile_image.url }}"
-                                                                      alt class="w-px-40 h-auto rounded-circle" />
+
+                                                                      {% if  user.profile.profile_image.name %}
+                                                                      <img src="{{ user.profile.profile_image.url }}" alt
+                                                                           class="w-px-40 h-auto rounded-circle" />
                                                                       {% else %}
-                                                                           
+
                                                                       <img src="{% static '/assets/img/avatars/1.png' %}"
                                                                            alt class="w-px-40 h-auto rounded-circle" />
                                                                       {% endif %}
-                                                                 
-                                                                      </div>
+
+                                                                 </div>
                                                             </div>
                                                             <div class="flex-grow-1">
-                                                                 <span class="fw-semibold d-block">{{ user.email }}</span>
-                                                                 {% comment %} <small class="text-muted">Admin</small> {% endcomment %}
+                                                                 <span class="fw-semibold d-block">{{user.email}}</span>
+                                                                 <small class="text-muted">{{user.first_name}}
+                                                                      {{user.last_name}}</small>
                                                             </div>
                                                        </div>
                                                   </a>
@@ -260,39 +267,39 @@
 
                     <!-- / Navbar -->
 
-                    
+
                     {% block body %}
-                         
+
                     {% endblock body %}
-                         
 
-                         <!-- Footer -->
-                         <footer class="content-footer footer bg-footer-theme">
-                              <div
-                                   class="container-fluid d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column">
-                                   {% comment %} <div class="mb-2 mb-md-0">
-                                        ©
-                                        <script>
-                                             document.write(new Date().getFullYear());
-                                        </script>
-                                        , made with ❤️ by
-                                        <a href="https://themeselection.com" target="_blank"
-                                             class="footer-link fw-bolder">ThemeSelection</a>
-                                   </div> {% endcomment %}
-                                   
-                              </div>
-                         </footer>
-                         <!-- / Footer -->
 
-                         <div class="content-backdrop fade"></div>
-                    </div>
-                    <!-- Content wrapper -->
+                    <!-- Footer -->
+                    <footer class="content-footer footer bg-footer-theme">
+                         <div
+                              class="container-fluid d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column">
+                              {% comment %} <div class="mb-2 mb-md-0">
+                                   ©
+                                   <script>
+                                        document.write(new Date().getFullYear());
+                                   </script>
+                                   , made with ❤️ by
+                                   <a href="https://themeselection.com" target="_blank"
+                                        class="footer-link fw-bolder">ThemeSelection</a>
+                              </div> {% endcomment %}
+
+                         </div>
+                    </footer>
+                    <!-- / Footer -->
+
+                    <div class="content-backdrop fade"></div>
                </div>
-               <!-- / Layout page -->
+               <!-- Content wrapper -->
           </div>
+          <!-- / Layout page -->
+     </div>
 
-          <!-- Overlay -->
-          <div class="layout-overlay layout-menu-toggle"></div>
+     <!-- Overlay -->
+     <div class="layout-overlay layout-menu-toggle"></div>
      </div>
      <!-- / Layout wrapper -->
 

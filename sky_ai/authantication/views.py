@@ -1,7 +1,8 @@
 from django.shortcuts import redirect, render
 from django.contrib.auth.models import User
 from django.contrib import auth
-from django.contrib.auth import authenticate  # , login, logout
+
+# from django.contrib.auth import authenticate  # , login, logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, user_passes_test
 
@@ -16,15 +17,15 @@ def anonymous_required(function=None, redirect_url=None):
 
 
 @anonymous_required
-def login_(request):
+def login(request):
     if request.method == "POST":
-        email = request.POST["email"].replace("", "").lower()
+        email = request.POST["email"].replace(" ", "").lower()
         password = request.POST["password"]
 
-        user = authenticate(username=email, password=password)
+        user = auth.authenticate(username=email, password=password)
         if user:
             auth.login(request, user)
-            return redirect("index")
+            return redirect("dashboard")
         else:
             messages.error(request, "Incorrect email or password")
             return redirect("register")
@@ -35,7 +36,7 @@ def login_(request):
 @anonymous_required
 def register(request):
     if request.method == "POST":
-        email = request.POST["email"].replace("", "").lower()
+        email = request.POST["email"].replace(" ", "").lower()
         password1 = request.POST["password1"]
         password2 = request.POST["password2"]
 
@@ -50,13 +51,13 @@ def register(request):
         user = User.objects.create_user(email=email, username=email, password=password2)
         user.save()
         auth.login(request, user)
-        return redirect("index")
+        return redirect("dashboard")
 
     return render(request, "auth/auth-register-basic.html", {})
 
 
 @login_required
-def logout_(request):
+def logout(request):
     auth.logout(request)
     messages.success(request, "You have been logged out")
     return redirect("login")

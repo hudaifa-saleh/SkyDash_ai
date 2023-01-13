@@ -1,6 +1,7 @@
 {% extends 'layouts/dashboard.html' %}
-{% block body %}
+{% load static %}
 {% load crispy_forms_tags %}
+{% block body %}
 
 
 <div class="container-xxl flex-grow-1 container-p-y">
@@ -24,19 +25,20 @@
                     <!-- Account -->
                     <div class="card-body">
                          <div class="d-flex align-items-start align-items-sm-center gap-4">
-                              
-                              {% if user.profile.profile_image.name %}     
-                              <img src="{{ user.profile.profile_image.url }}" alt="{{ user.first_name}} {{ user.last_name }}"
-                                   class="d-block rounded" height="100" />
+
+                              {% if user.profile.profile_image.name %}
+                              <img src="{{ user.profile.profile_image.url }}"
+                                   alt="{{ user.first_name}} {{ user.last_name }}" class="d-block rounded"
+                                   height="100" />
                               {% endif %}
                               <div class="button-wrapper">
                                    <form action='#' method="POST" enctype='multipart/form-data'>
                                         {% csrf_token %}
                                         {{ image_form|crispy }}
-                                        <button type="submit" class="btn btn-outline-secondary mb-4 mt-3">
+                                        <button type="submit" class="btn btn-primary mb-4 mt-3">
                                              <span class="d-none d-sm-block">Save Image</span>
                                         </button>
-          
+
                                    </form>
                                    <p class="text-muted mb-0">Allowed JPG, GIF or PNG. Max size of 800K</p>
                               </div>
@@ -44,13 +46,38 @@
                     </div>
                     <hr class="my-0" />
                     <div class="card-body">
-                         <form action='#' method="POST">
+                         <!-- <form method="POST">
                               {% csrf_token %}
                               {{ form|crispy  }}
-
+                              
+                         </form> -->
+                         <form method="post">
+                              {%csrf_token%}
+                              {%if form%}
+                         
+                              <div class="row bg-white">
+                                   {%for field in form%}
+                                   <div class="col-md-6 p-2">{{field|as_crispy_field}}</div>
+                                   {%endfor%}
+                         
+                                   <div class="col-md-12">
+                                        <ul class="list-inline text-right">
+                                             <li class="list-inline-item">
+                                                  <button type="submit" class="btn btn-primary me-2">Save Changes</button>
+                                             </li>
+                                        </ul>
+                                   </div>
+                              </div>
+                              {%endif%}
                          </form>
+
                     </div>
-                    <button type="submit" class="btn btn-primary">Save Profile</button>
+
+                    <!-- <button type="button" class="btn btn-outline-secondary account-image-reset mb-4">
+                         <i class="bx bx-reset d-block d-sm-none">
+                              <span class="d-none d-sm-block">Save</span>
+                         </i>
+                    </button> -->
                     <!-- /Account -->
                </div>
                <div class="card">
@@ -81,3 +108,29 @@
 </div>
 <!-- / Content -->
 {% endblock body %}
+
+<!-- <button type="button" class="btn btn-outline-secondary account-image-reset mb-4">
+     <i class="bx bx-reset d-block d-sm-none">
+          <span class="d-none d-sm-block">Save</span>
+     </i>
+</button> -->
+
+<!-- <form method="post">
+     {%csrf_token%}
+     {%if form%}
+
+     <div class="row bg-white">
+          {%for field in form%}
+          <div class="col-md-6 p-2">{{field|as_crispy_field}}</div>
+          {%endfor%}
+
+          <div class="col-md-12">
+               <ul class="list-inline text-right">
+                    <li class="list-inline-item">
+                         <button type="submit" class="btn btn-primary me-2">Save</button>
+                    </li>
+               </ul>
+          </div>
+     </div>
+     {%endif%}
+</form> -->

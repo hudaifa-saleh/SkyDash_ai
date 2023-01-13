@@ -17,7 +17,7 @@ def home(request):
             blogwords = 0
             for section in sections:
                 section.save()  # to be deleted
-                blogwords += int(section.word_count)
+                blogwords += int()
             blog.word_count = str(blogwords)
             blog.save()
             completedBlog.append(blog)
