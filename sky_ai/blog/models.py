@@ -12,7 +12,7 @@ class Blog(models.Model):
     title = models.CharField(max_length=100)
     audience = models.CharField(max_length=100, blank=True, null=True)
     keywords = models.CharField(max_length=100, blank=True, null=True)
-    word_count = models.CharField(max_length=100, blank=True, null=True)
+    wordCount = models.CharField(max_length=100, blank=True, null=True)
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
 
     uniqueId = models.CharField(null=True, blank=True, max_length=100)
@@ -38,7 +38,7 @@ class BlogSection(models.Model):
     title = models.CharField(max_length=100)
     body = models.TextField(blank=True, null=True)
     blog = models.ForeignKey(Blog, on_delete=models.CASCADE)
-    word_count = models.CharField(max_length=100, blank=True, null=True)
+    wordCount = models.CharField(max_length=100, blank=True, null=True)
 
     uniqueId = models.CharField(null=True, blank=True, max_length=100)
     slug = models.SlugField(max_length=500, unique=True, blank=True, null=True)
@@ -59,5 +59,5 @@ class BlogSection(models.Model):
         # count words
         if self.body:
             x = len(self.body.split(" "))
-            self.word_count = str(x)
+            self.wordCount = str(x)
         super(BlogSection, self).save(*args, **kwargs)

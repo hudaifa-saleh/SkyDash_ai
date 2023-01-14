@@ -67,7 +67,7 @@ class ProfileForm(forms.ModelForm):
                 Column("country", css_class="form-group col-md-6"),
                 Column("postalCode", css_class="form-group col-md-6"),
             ),
-            # Submit("submit", "Save Changes", css_class="btn btn-primary me-2"),
+            # Submit("submit", "Save Changes", css_class="btn btn-info me-2"),
         )
 
     class Meta:

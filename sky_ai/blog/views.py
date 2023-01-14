@@ -9,24 +9,26 @@ from .models import Blog, BlogSection
 def home(request):
     emptyBlog = []
     completedBlog = []
+    monthCount = 0
     blogs = Blog.objects.filter(profile=request.user.profile)
     for blog in blogs:
         sections = BlogSection.objects.filter(blog=blog)
         if sections.exists():
             # calculate blog worrds
-            blogwords = 0
+            blogWords = 0
             for section in sections:
-                section.save()  # to be deleted
-                blogwords += int()
-            blog.word_count = str(blogwords)
+                # section.save()
+                blogWords += int(section.wordCount)
+                monthCount += int(section.wordCount)
+            blog.wordCount = str(blogWords)
             blog.save()
             completedBlog.append(blog)
         else:
             emptyBlog.append(blog)
 
     context = {}
-    context["numBlogs"] =len(completedBlog)
-    context["monthCount"] = 1234
+    context["numBlogs"] = len(completedBlog)
+    context["monthCount"] = str(monthCount)
     context["countReset"] = "12 July 2023"
     context["emptyBlog"] = emptyBlog
     context["completedBlog"] = completedBlog

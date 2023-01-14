@@ -72,7 +72,7 @@ def genarateBlogSectionDetail(blogTopic, sectionTopic, audience, keywords):
             blogTopic, sectionTopic, audience, keywords
         ),
         temperature=0.8,
-        max_tokens=500,
+        max_tokens=2000,
         top_p=1,
         best_of=1,
         frequency_penalty=0,
@@ -87,6 +87,9 @@ def genarateBlogSectionDetail(blogTopic, sectionTopic, audience, keywords):
             return ""
     else:
         return ""
+
+
+
 
 
 # def genarateBlogSectionHeadings(topic, keywords):

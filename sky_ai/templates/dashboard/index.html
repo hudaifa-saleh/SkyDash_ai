@@ -12,7 +12,7 @@
                               <div class="d-flex align-items-end row">
                                    <div class="col-sm-7">
                                         <div class="card-body">
-                                             <h4 class="card-title text-primary">congratulations {{ user.first_name }}
+                                             <h4 class="card-title text-info">congratulations {{ user.first_name }}
                                              </h4>
                                              <p class="mb-4">
                                                   You have written <span class="fw-bold">{{ numBlogs }}</span>
@@ -21,12 +21,12 @@
                                                   reset on <span class="fw-bold">{{ countReset }}</span>
                                              </p>
                                              <a href="{% url 'blog-topic' %}"
-                                                  class="btn btn-sm btn-outline-primary">Write New Blog</a>
+                                                  class="btn btn-info">Write New Blog</a>
                                         </div>
                                    </div>
                                    <div class="col-sm-5 text-center text-sm-left">
                                         <div class="card-body pd-0 px-md-4">
-                                             <img src="{% static '/assets/img/illustrations/man-with-laptop-light.png' %}"
+                                             <img src="{% static '/assets/img/illustrations/DrawKit Vector Illustration Team Work (5).png' %}"
                                                   alt="SkyGram.AI" height="140">
                                         </div>
                                    </div>
@@ -53,9 +53,9 @@
                                                   </td>
                                                   <td><strong>{{blog.audience|truncatewords:5}}</strong></td>
                                                   <td>{{blog.keywords|truncatewords:5}}</td>
-                                                  <td>{{blog.word_count}}</td>
+                                                  <td>{{blog.wordCount}}</td>
                                                   <td><a href="{% url 'view-blog-generator' blog.slug %}"><button
-                                                                 class="btn btn-sm btn-outline-primary">View</button></a>
+                                                                 class="btn btn-info">View</button></a>
                                                   </td>
 
                                              </tr>
@@ -81,6 +81,7 @@
                                                        <small
                                                             class="text-muted d-block mb-1">{{ blog.blogIdea }}</small>
                                                        <h6 class="mb-0"><a
+                                                                 class="card-title text-info"
                                                                  href="{% url 'create-blog-from-topic' blog.uniqueId %}">{{ blog.title }}</a>
                                                        </h6>
                                                   </div>
