@@ -32,38 +32,40 @@
                                    </div>
                               </div>
                          </div>
-                    </div>
-                    <div class="card mt-3">
-                         <h5 class="card-header">Commpleted Blogs</h5>
-                         <div class="table-responsive">
-                              <table class="table">
-                                   <thead>
-                                        <tr>
-                                             <th>Blog Tilte</th>
-                                             <th>Audiences</th>
-                                             <th>Keywords</th>
-                                             <th>Word Counts</th>
-                                        </tr>
-                                   </thead>
-                                   <tbody class="table-border-bottom-0">
-                                        {% for blog in completedBlog %} 
-                                        <tr>
-                                             <td>
-                                                  <h4>{{blog.blogIdea}}</h4>
-                                                  {{blog.title}}
-                                             </td>
-                                             <td><strong>{{blog.audience}}</strong></td>
-                                             <td>{{blog.keywords}}</td>
-                                             <td>{{blog.word_count}}</td>
-                                             <td><a href="{% url 'view-blog-generator' blog.slug %}"><button
-                                                            class="btn btn-sm btn-outline-primary">View</button></a></td>
+                         <div class="card mt-3">
+                              <h5 class="card-header">Commpleted Blogs</h5>
+                              <div class="table-responsive">
+                                   <table class="table">
+                                        <thead>
+                                             <tr>
+                                                  <th>Blog Tilte</th>
+                                                  <th>Audiences</th>
+                                                  <th>Keywords</th>
+                                                  <th>Word Counts</th>
+                                             </tr>
+                                        </thead>
+                                        <tbody class="table-border-bottom-0">
+                                             {% for blog in completedBlog %}
+                                             <tr>
+                                                  <td>
+                                                       <h6>{{blog.blogIdea}}</h6>
+                                                       {{blog.title}}
+                                                  </td>
+                                                  <td><strong>{{blog.audience|truncatewords:5}}</strong></td>
+                                                  <td>{{blog.keywords|truncatewords:5}}</td>
+                                                  <td>{{blog.word_count}}</td>
+                                                  <td><a href="{% url 'view-blog-generator' blog.slug %}"><button
+                                                                 class="btn btn-sm btn-outline-primary">View</button></a>
+                                                  </td>
 
-                                        </tr>
-                                        {% endfor %}
-                                   </tbody>
-                              </table>
+                                             </tr>
+                                             {% endfor %}
+                                        </tbody>
+                                   </table>
+                              </div>
                          </div>
                     </div>
+
                     <div class="col-lg-4">
                          <div class="card h-100">
                               <div class="card-header d-flex align-items-center justify-content-between">

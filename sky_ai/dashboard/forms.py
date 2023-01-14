@@ -35,7 +35,7 @@ class ProfileForm(forms.ModelForm):
         label="Province",
         widget=forms.TextInput(attrs={"class": "form-control mb-3", "placeholder": "Enter Province"}),
     )
-    postal_code = forms.CharField(
+    postalCode = forms.CharField(
         required=True,
         label="Postal Code",
         widget=forms.TextInput(attrs={"class": "form-control mb-3", "placeholder": "Enter Postal Code"}),
@@ -65,14 +65,14 @@ class ProfileForm(forms.ModelForm):
             ),
             Row(
                 Column("country", css_class="form-group col-md-6"),
-                Column("postal_code", css_class="form-group col-md-6"),
+                Column("postalCode", css_class="form-group col-md-6"),
             ),
             # Submit("submit", "Save Changes", css_class="btn btn-primary me-2"),
         )
 
     class Meta:
         model = Profile
-        fields = ["address_line1", "address_line2", "city", "province", "country", "postal_code"]
+        fields = ["address_line1", "address_line2", "city", "province", "country", "postalCode"]
 
     def save(self, *args, **kwargs):
         user = self.instance.user
@@ -84,7 +84,7 @@ class ProfileForm(forms.ModelForm):
 
 
 class ProfileImageForm(forms.ModelForm):
-    profile_image = forms.ImageField(
+    profileImage = forms.ImageField(
         required=True,
         label="Upload Profile Image",
         widget=forms.FileInput(attrs={"class": "form-control"}),
@@ -92,4 +92,4 @@ class ProfileImageForm(forms.ModelForm):
 
     class Meta:
         model = Profile
-        fields = ["profile_image"]
+        fields = ["profileImage"]

@@ -17,20 +17,20 @@ class Blog(models.Model):
 
     uniqueId = models.CharField(null=True, blank=True, max_length=100)
     slug = models.SlugField(max_length=500, unique=True, blank=True, null=True)
-    date_created = models.DateTimeField(blank=True, null=True)
-    last_updated = models.DateTimeField(blank=True, null=True)
+    dateCreated = models.DateTimeField(blank=True, null=True)
+    lastUpdated = models.DateTimeField(blank=True, null=True)
 
     def __str__(self):
         return "{} {}".format(self.title, self.uniqueId)
 
     def save(self, *args, **kwargs):
-        if self.date_created is None:
-            self.date_created = timezone.localtime(timezone.now())
+        if self.dateCreated is None:
+            self.dateCreated = timezone.localtime(timezone.now())
         if self.uniqueId is None:
             self.uniqueId = str(uuid4()).split("-")[4]
 
         self.slug = slugify("{} {}".format(self.title, self.uniqueId))
-        self.last_updated = timezone.localtime(timezone.now())
+        self.lastUpdated = timezone.localtime(timezone.now())
         super(Blog, self).save(*args, **kwargs)
 
 
@@ -42,20 +42,20 @@ class BlogSection(models.Model):
 
     uniqueId = models.CharField(null=True, blank=True, max_length=100)
     slug = models.SlugField(max_length=500, unique=True, blank=True, null=True)
-    date_created = models.DateTimeField(blank=True, null=True)
-    last_updated = models.DateTimeField(blank=True, null=True)
+    dateCreated = models.DateTimeField(blank=True, null=True)
+    lastUpdated = models.DateTimeField(blank=True, null=True)
 
     def __str__(self):
         return "{} {}".format(self.title, self.uniqueId)
 
     def save(self, *args, **kwargs):
-        if self.date_created is None:
-            self.date_created = timezone.localtime(timezone.now())
+        if self.dateCreated is None:
+            self.dateCreated = timezone.localtime(timezone.now())
         if self.uniqueId is None:
             self.uniqueId = str(uuid4()).split("-")[4]
 
         self.slug = slugify("{} {}".format(self.title, self.uniqueId))
-        self.last_updated = timezone.localtime(timezone.now())
+        self.lastUpdated = timezone.localtime(timezone.now())
         # count words
         if self.body:
             x = len(self.body.split(" "))
