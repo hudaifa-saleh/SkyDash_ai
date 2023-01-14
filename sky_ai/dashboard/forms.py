@@ -5,16 +5,16 @@ from crispy_forms.layout import Layout, Submit, Row, Column, Field
 
 
 class ProfileForm(forms.ModelForm):
-    # first_name = forms.CharField(
-    #     required=True,
-    #     label="First Name",
-    #     widget=forms.TextInput(attrs={"class": "form-control mb-3", "placeholder": "Enter First Name"}),
-    # )
-    # last_name = forms.CharField(
-    #     required=True,
-    #     label="Last Name",
-    #     widget=forms.TextInput(attrs={"class": "form-control mb-3", "placeholder": "Enter Last Name"}),
-    # )
+    first_name = forms.CharField(
+        required=True,
+        label="First Name",
+        widget=forms.TextInput(attrs={"class": "form-control mb-3", "placeholder": "Enter First Name"}),
+    )
+    last_name = forms.CharField(
+        required=True,
+        label="Last Name",
+        widget=forms.TextInput(attrs={"class": "form-control mb-3", "placeholder": "Enter Last Name"}),
+    )
     address_line1 = forms.CharField(
         required=True,
         label="Address Line 1",
@@ -51,10 +51,10 @@ class ProfileForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.layout = Layout(
-            # Row(
-            #     Column(Field("first_name", value=self.user.first_name), css_class="form-group col-md-6"),
-            #     Column(Field("last_name", value=self.user.last_name), css_class="form-group col-md-6"),
-            # ),
+            Row(
+                Column("first_name", css_class="form-group col-md-6"),
+                Column("last_name", css_class="form-group col-md-6"),
+            ),
             Row(
                 Column("address_line1", css_class="form-group col-md-6"),
                 Column("address_line2", css_class="form-group col-md-6"),
@@ -74,13 +74,13 @@ class ProfileForm(forms.ModelForm):
         model = Profile
         fields = ["address_line1", "address_line2", "city", "province", "country", "postal_code"]
 
-    # def save(self, *args, **kwargs):
-    #     user = self.instance.user
-    #     user.first_name = self.cleaned_data.get("first_name")
-    #     user.last_name = self.cleaned_data.get("last_name")
-    #     user.save()
-    #     profile = super(ProfileForm, self).save(*args, **kwargs)
-    #     return profile
+    def save(self, *args, **kwargs):
+        user = self.instance.user
+        user.first_name = self.cleaned_data.get("first_name")
+        user.last_name = self.cleaned_data.get("last_name")
+        user.save()
+        profile = super(ProfileForm, self).save(*args, **kwargs)
+        return profile
 
 
 class ProfileImageForm(forms.ModelForm):

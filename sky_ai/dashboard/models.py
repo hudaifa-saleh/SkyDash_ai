@@ -24,7 +24,7 @@ class Profile(models.Model):
     last_updated = models.DateTimeField(blank=True, null=True)
 
     def __str__(self):
-        return "{} {} {}".format(self.user.first_name, self.user.last_name, self.user.email)
+        return "{}".format(self.user.email)
 
     def save(self, *args, **kwargs):
         if self.date_created is None:

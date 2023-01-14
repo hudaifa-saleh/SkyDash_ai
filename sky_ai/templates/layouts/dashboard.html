@@ -190,7 +190,7 @@
                                              <div class="avatar avatar-online">
                                                   {% if  user.profile.profile_image.name %}
                                                   <img src="{{ user.profile.profile_image.url }}" alt
-                                                       class="w-px-40 h-auto rounded-circle" />
+                                                       class="d-block rounded" />
                                                   {% else %}
 
                                                   <img src="{% static '/assets/img/avatars/1.png' %}"
@@ -201,13 +201,13 @@
                                         <ul class="dropdown-menu dropdown-menu-end">
                                              <li>
                                                   <a class="dropdown-item" href="#">
-                                                       <div class="d-flex">
+                                                       <div class="d-flex ">
                                                             <div class="flex-shrink-0 me-3">
                                                                  <div class="avatar avatar-online">
 
                                                                       {% if  user.profile.profile_image.name %}
                                                                       <img src="{{ user.profile.profile_image.url }}" alt
-                                                                           class="w-px-40 h-auto rounded-circle" />
+                                                                           class="d-block rounded" />
                                                                       {% else %}
 
                                                                       <img src="{% static '/assets/img/avatars/1.png' %}"
