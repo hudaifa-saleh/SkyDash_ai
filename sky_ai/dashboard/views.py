@@ -8,7 +8,6 @@ from .models import *
 @login_required
 def profile(request):
     context = {}
-    # profile = request.user.profile
 
     if request.method == "GET":
         form = ProfileForm(instance=request.user.profile)
