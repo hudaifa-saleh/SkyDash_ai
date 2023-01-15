@@ -27,6 +27,7 @@ class Profile(models.Model):
     monthlyCount = models.CharField(null=True, blank=True, max_length=100)
     subscribed = models.BooleanField(default=False)
     subscriptionType = models.CharField(choices=SUBSCRIPTION_OPTIONS, default="free", max_length=20)
+    subscriptionReference = models.CharField(null=True, blank=True, max_length=500)
 
     # Utility functions
     uniqueId = models.CharField(null=True, blank=True, max_length=100)

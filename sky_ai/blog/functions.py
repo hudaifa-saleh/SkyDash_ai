@@ -65,7 +65,7 @@ def genarateBlogtoSectionTitles(audience, topic, keywords):
     return blog_section
 
 
-def genarateBlogSectionDetail(blogTopic, sectionTopic, audience, keywords):
+def genarateBlogSectionDetail(profile, blogTopic, sectionTopic, audience, keywords):
     response = openai.Completion.create(
         model="text-davinci-003",
         prompt="Generate detailed blog section write up for the following blog section keading, using the blog title, audience and keywords provided.\nBlog Title: {}\nBlog Section Heading: {}\nBlog Title {}\nAudience: {}\nkeywords: \n".format(
@@ -81,15 +81,58 @@ def genarateBlogSectionDetail(blogTopic, sectionTopic, audience, keywords):
     if "choices" in response:
         if len(response["choices"]) > 0:
             res = response["choices"][0]["text"]
-            cleanedRes = res.replace("\n", "<br>")
-            return cleanedRes
+            if not res == "":
+                cleanedRes = res.replace("\n", "<br>")
+                if profile.monthlyCount:
+                    oldCount = int(profile.monthlyCount)
+                else:
+                    oldCount = 0
+                oldCount += len(cleanedRes.split(" "))
+                profile.monthlyCount = str(oldCount)
+                profile.save()
+                return cleanedRes
+            else:
+                return ""
         else:
             return ""
     else:
         return ""
 
 
-
+def checkCountAllowance(profile):
+    if profile.subscribed:
+        type = profile.subscriptionType
+        if type == "free":
+            max_limit = 5000
+            if profile.monthlyCount:
+                if int(profile.monthlyCount) < max_limit:
+                    return True
+                else:
+                    return False
+            else:
+                return True
+        elif type == "starter":
+            max_limit = 40000
+            if profile.monthlyCount:
+                if int(profile.monthlyCount) < max_limit:
+                    return True
+                else:
+                    return False
+            else:
+                return True
+        elif type == "advanced":
+            return True
+        else:
+            return False
+    else:
+        max_limit = 5000
+        if profile.monthlyCount:
+            if int(profile.monthlyCount) < max_limit:
+                return True
+            else:
+                return False
+        else:
+            return True
 
 
 # def genarateBlogSectionHeadings(topic, keywords):

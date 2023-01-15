@@ -1,5 +1,11 @@
+import time
 from django.shortcuts import render, redirect
-from .functions import *
+from .functions import (
+    checkCountAllowance,
+    genarateBlogSectionDetail,
+    genarateBlogtoSectionTitles,
+    genarateBlogtoTpicIdeas,
+)
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, user_passes_test
 from .models import Blog, BlogSection
@@ -26,12 +32,14 @@ def home(request):
         else:
             emptyBlog.append(blog)
 
+    allowance = checkCountAllowance(request.user.profile)
     context = {}
     context["numBlogs"] = len(completedBlog)
     context["monthCount"] = str(monthCount)
     context["countReset"] = "12 July 2023"
     context["emptyBlog"] = emptyBlog
     context["completedBlog"] = completedBlog
+    context["allowance"] = allowance
 
     return render(request, "dashboard/index.html", context)
 
@@ -128,8 +136,15 @@ def creatBlogFromTopic(request, uniqueId):
     if request.method == "POST":
         for val in request.POST:
             if not "csrfmiddlewaretoken" in val:
+                # collect previous blog sections
+                prevBlog = ""
+                bSections = BlogSection.objects.filter(blog=blog).order_by("dateCreated")
+                for sec in bSections:
+                    prevBlog += sec.title + "\n"
+                    prevBlog += sec.body.replace("<br>", "\n")
+                prevBlog = ""
                 # generating blog section details
-                section = genarateBlogSectionDetail(blog.title, val, blog.audience, blog.keywords)
+                section = genarateBlogSectionDetail(blog.title, val, blog.audience, blog.keywords, prevBlog, request.user.profile)
                 #  create a database record
                 blogSec = BlogSection.objects.create(
                     title=val,
@@ -171,8 +186,24 @@ def useBlogTopic(request, blogTopic):
     if request.method == "POST":
         for val in request.POST:
             if not "csrfmiddlewaretoken" in val:
+                # collect previous blog sections
+                prevBlog = ""
+                bSections = BlogSection.objects.filter(blog=blog).order_by("dateCreated")
+                for sec in bSections:
+                    prevBlog += sec.title + "\n"
+                    prevBlog += sec.body.replace("<br>", "\n")
+                    
                 # generating blog section details
-                section = genarateBlogSectionDetail(blogTopic, val, request.session["audience"], request.session["keywords"])
+                prevBlog = ""
+                section = genarateBlogSectionDetail(
+                    blogTopic,
+                    val,
+                    request.session["audience"],
+                    request.session["keywords"],
+                    prevBlog,
+                    request.user.profile,
+                )
+                
                 #  create a database record
                 blogSec = BlogSection.objects.create(
                     title=val,
@@ -180,6 +211,7 @@ def useBlogTopic(request, blogTopic):
                     blog=blog,
                 )
                 blogSec.save()
+                time.sleep(2)
         return redirect("view-blog-generator", slug=blog.slug)
 
     return render(request, "dashboard/selact-blog_section.html", context)

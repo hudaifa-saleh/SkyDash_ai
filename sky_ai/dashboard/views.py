@@ -27,3 +27,8 @@ def profile(request):
             return redirect("profile")
 
     return render(request, "dashboard/profile.html", context)
+
+
+@login_required
+def billing(request):
+    return render(request, "dashboard/billing.html", {})
