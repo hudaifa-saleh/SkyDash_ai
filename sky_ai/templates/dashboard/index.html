@@ -42,6 +42,7 @@
                                    </div>
                               </div>
                          </div>
+                         {% if completedBlog|length > 0 %}
                          <div class="card mt-3">
                               <h5 class="card-header">Commpleted Blogs</h5>
                               <div class="table-responsive">
@@ -74,6 +75,7 @@
                                    </table>
                               </div>
                          </div>
+                         {% endif %}
                     </div>
 
                     <div class="col-lg-4">
@@ -81,6 +83,7 @@
                               <div class="card-header d-flex align-items-center justify-content-between">
                                    <h5 class="card-title m-0 me-2">Saved Blog </h5>
                               </div>
+                              {% if emptyBlog|length > 0 %}
                               <div class="card-body">
                                    <ul class="p-0 m-0">
                                         {% for blog in emptyBlog %}
@@ -103,6 +106,7 @@
                                         {% endfor %}
                                    </ul>
                               </div>
+                              {% endif %}
                          </div>
                     </div>
                </div>
