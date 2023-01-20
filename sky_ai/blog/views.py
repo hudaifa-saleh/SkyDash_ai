@@ -118,7 +118,7 @@ def useBlogTopic(request, blogTopic):
     if request.method == "POST":
         for val in request.POST:
             if not "csrfmiddlewaretoken" in val:  # Generation the blog section details
-                section = genarateBlogSectionDetail(blogTopic, val, request.session["audience"], request.session["keywords"])
+                section = genarateBlogSectionDetail(blogTopic, val, request.session["audience"], request.session["keywords"], request.user.profile)
                 blogSec = BlogSection.objects.create(title=val, body=section, blog=blog)
                 blogSec.save()
         return redirect("view_blog_generator", slug=blog.slug)
@@ -176,7 +176,7 @@ def createBlogFromTopic(request, uniqueId):
     if request.method == "POST":
         for val in request.POST:
             if not "csrfmiddlewaretoken" in val:  # Generation the blog section details
-                section = genarateBlogSectionDetail(val, blog.title, blog.audience, blog.keywords)
+                section = genarateBlogSectionDetail(val, blog.title, blog.audience, blog.keywords, request.user.profile)
                 blogSec = BlogSection.objects.create(title=val, body=section, blog=blog)
                 blogSec.save()
         return redirect("view_blog_generator", slug=blog.slug)

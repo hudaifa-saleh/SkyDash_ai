@@ -1,7 +1,7 @@
 import os
 import openai
 from django.conf import settings
-# from dashboard.models import Profile as profile
+from dashboard.models import Profile as profile
 
 openai.api_key = settings.OPENAI_API_KEY
 
@@ -64,7 +64,7 @@ def genarateBlogtoSectionTitles(audience, topic, keywords):
     return blog_section
 
 
-def genarateBlogSectionDetail(blogTopic, sectionTopic, audience, keywords):
+def genarateBlogSectionDetail(blogTopic, sectionTopic, audience, keywords, profile):
     response = openai.Completion.create(
         model="text-davinci-003",
         prompt="Generate detailed blog section write up for the following blog section keading, using the blog title, audience and keywords provided.{}\nBlog Section Heading: {}\nBlog Title {}\nAudience: {}\nkeywords: \n".format(
@@ -80,12 +80,22 @@ def genarateBlogSectionDetail(blogTopic, sectionTopic, audience, keywords):
     if "choices" in response:
         if len(response["choices"]) > 0:
             res = response["choices"][0]["text"]
-            cleanedRes = res.replace("\n", "<br>")
-            return cleanedRes
+            if not res == "":
+                cleanedRes = res.replace("\n", "<br>")
+                if profile.monthlyCount:
+                    oldCount = int(profile.monthlyCount)
+                else:
+                    oldCount = 0
+                oldCount += len(cleanedRes.split(" "))
+                profile.monthlyCount = str(oldCount)
+                profile.save()
+                return cleanedRes
+            else:
+                return ""
         else:
-            res = []
+            return ""
     else:
-        res = []
+        return ""
 
 
 def checkCountAllowance(profile):
