@@ -11,4 +11,6 @@ urlpatterns = [
     path("save-blog_topic/<str:blogTopic>/", views.saveBlogTopic, name="save_blog_topic"),
     path("use-blog_topic/<str:blogTopic>/", views.useBlogTopic, name="use_blog_topic"),
     path("view-blog-generator/<slug:slug>/", views.viewBlogGenerator, name="view_blog_generator"),
+    # Billing
+    path("billing/", views.billing, name="billing"),
 ]

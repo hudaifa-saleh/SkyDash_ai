@@ -181,3 +181,9 @@ def createBlogFromTopic(request, uniqueId):
                 blogSec.save()
         return redirect("view_blog_generator", slug=blog.slug)
     return render(request, "dashboard/selact-blog_section.html", context)
+
+
+########################### Billing #######################################
+@login_required
+def billing(request):
+    return render(request, "dashboard/billing.html", {})
