@@ -33,7 +33,7 @@ def home(request):
     allowance = checkCountAllowance(request.user.profile)
     context = {}
     context["numBlogs"] = len(completedBlog)
-    context["monthCount"] = str(monthCount)
+    context["monthCount"] = request.user.profile.monthlyCount
     context["countReset"] = "12 July 2023"
     context["emptyBlog"] = emptyBlog
     context["completedBlog"] = completedBlog
