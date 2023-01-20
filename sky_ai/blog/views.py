@@ -7,7 +7,7 @@ from .functions import (
     genarateBlogtoTpicIdeas,
 )
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.auth.decorators import login_required
 from .models import Blog, BlogSection
 
 
@@ -19,11 +19,9 @@ def home(request):
     blogs = Blog.objects.filter(profile=request.user.profile)
     for blog in blogs:
         sections = BlogSection.objects.filter(blog=blog)
-        if sections.exists():
-            # calculate blog worrds
+        if sections.exists():  # calculate blog worrds
             blogWords = 0
             for section in sections:
-                # section.save()
                 blogWords += int(section.wordCount)
                 monthCount += int(section.wordCount)
             blog.wordCount = str(blogWords)
@@ -32,26 +30,21 @@ def home(request):
         else:
             emptyBlog.append(blog)
 
-    allowance = checkCountAllowance(request.user.profile)
     context = {}
     context["numBlogs"] = len(completedBlog)
     context["monthCount"] = str(monthCount)
     context["countReset"] = "12 July 2023"
     context["emptyBlog"] = emptyBlog
     context["completedBlog"] = completedBlog
-    context["allowance"] = allowance
-
-    return render(request, "dashboard/index.html", context)
+    return render(request, "dashboard/home.html", context)
 
 
 @login_required
 def blogTopic(request):
     context = {}
     if request.method == "POST":
-        # Retrive the blog topic string from the form the user submitted which comes in the request.POST
-        blogIdea = request.POST["blogIdea"]
-        # saveing the blogidea in the session to access later in another route for example
-        request.session["blogIdea"] = blogIdea
+        blogIdea = request.POST["blogIdea"]  # Retrive the blog topic string from the form the user submitted which comes in the request.POST
+        request.session["blogIdea"] = blogIdea  # saveing the blogidea in the session to access later in another route for example
         keywords = request.POST["keywords"]
         request.session["keywords"] = keywords
         audience = request.POST["audience"]
@@ -60,7 +53,7 @@ def blogTopic(request):
         blogTopics = genarateBlogtoTpicIdeas(blogIdea, audience, keywords)
         if len(blogTopics) > 0:
             request.session["blogTopics"] = blogTopics
-            return redirect("blog-section")
+            return redirect("blog_sections")
         else:
             messages.error(request, "Try again later")
     return render(request, "dashboard/blog_topic.html", context)
@@ -93,9 +86,41 @@ def saveBlogTopic(request, blogTopic):
         blogTopics = request.session["blogTopics"]
         blogTopics.remove(blogTopic)
         request.session["blogTopics"] = blogTopics
-        return redirect("blog-section")
+        return redirect("blog_sections")
     else:
-        return redirect("blog-topic")
+        return redirect("blog_topic")
+
+
+@login_required
+def useBlogTopic(request, blogTopic):
+    context = {}
+    if "blogIdea" in request.session and "keywords" in request.session and "audience" in request.session:
+        blog = Blog.objects.create(
+            title=blogTopic,
+            blogIdea=request.session["blogIdea"],  # topic
+            keywords=request.session["keywords"],
+            audience=request.session["audience"],
+            profile=request.user.profile,
+        )
+        blog.save()
+        blogSections = genarateBlogtoSectionTitles(blogTopic, request.session["audience"], request.session["keywords"])
+    else:
+        return redirect("blog_topic")
+    if len(blogSections) > 0:
+        request.session["blogSections"] = blogSections  # Adding the section to the session
+        context["blogSections"] = blogSections  # Adding the section to the context
+    else:
+        messages.error(request, "Oops, you beat the AI try again")
+        return redirect("blog_topic")
+
+    if request.method == "POST":
+        for val in request.POST:
+            if not "csrfmiddlewaretoken" in val:  # Generation the blog section details
+                section = genarateBlogSectionDetail(blogTopic, val, request.session["audience"], request.session["keywords"])
+                blogSec = BlogSection.objects.create(title=val, body=section, blog=blog)
+                blogSec.save()
+        return redirect("view_blog_generator", slug=blog.slug)
+    return render(request, "dashboard/selact-blog_section.html", context)
 
 
 @login_required
@@ -114,110 +139,6 @@ def deleteBlogTopic(request, uniqueId):
 
 
 @login_required
-def creatBlogFromTopic(request, uniqueId):
-    context = {}
-    try:
-        blog = Blog.objects.get(uniqueId=uniqueId)
-    except:
-        messages.error(request, "Blog not found")
-        return redirect("dashboard")
-
-    blogSections = genarateBlogtoSectionTitles(blog.title, blog.audience, blog.keywords)
-
-    if len(blogSections) > 0:
-        # adding the section to the sessions
-        request.session["blogSections"] = blogSections
-        # adding the section to the contexts
-        context["blogSections"] = blogSections
-    else:
-        messages.error(request, "Oops you beat the AI try again.")
-        return redirect("use-blog-topic")
-
-    if request.method == "POST":
-        for val in request.POST:
-            if not "csrfmiddlewaretoken" in val:
-                # collect previous blog sections
-                prevBlog = ""
-                bSections = BlogSection.objects.filter(blog=blog).order_by("dateCreated")
-                for sec in bSections:
-                    prevBlog += sec.title + "\n"
-                    prevBlog += sec.body.replace("<br>", "\n")
-                prevBlog = ""
-                # generating blog section details
-                section = genarateBlogSectionDetail(blog.title, val, blog.audience, blog.keywords, prevBlog, request.user.profile)
-                #  create a database record
-                blogSec = BlogSection.objects.create(
-                    title=val,
-                    body=section,
-                    blog=blog,
-                )
-                blogSec.save()
-        return redirect("view-blog-generator", slug=blog.slug)
-
-    return render(request, "dashboard/selact-blog_section.html", context)
-
-
-@login_required
-def useBlogTopic(request, blogTopic):
-    context = {}
-    if "blogIdea" in request.session and "keywords" in request.session and "audience" in request.session:
-        # savivg tne blog-section
-        blog = Blog.objects.create(
-            title=blogTopic,
-            blogIdea=request.session["blogIdea"],
-            keywords=request.session["keywords"],
-            audience=request.session["audience"],
-            profile=request.user.profile,
-        )
-        blog.save()
-        blogSections = genarateBlogtoSectionTitles(blogTopic, request.session["audience"], request.session["keywords"])
-    else:
-        return redirect("blog-topic")
-
-    if len(blogSections) > 0:
-        # adding the section to the sessions
-        request.session["blogSections"] = blogSections
-        # adding the section to the contexts
-        context["blogSections"] = blogSections
-    else:
-        messages.error(request, "Oops you beat the AI try again.")
-        return redirect("use-blog-topic")
-
-    if request.method == "POST":
-        for val in request.POST:
-            if not "csrfmiddlewaretoken" in val:
-                # collect previous blog sections
-                prevBlog = ""
-                bSections = BlogSection.objects.filter(blog=blog).order_by("dateCreated")
-                for sec in bSections:
-                    prevBlog += sec.title + "\n"
-                    prevBlog += sec.body.replace("<br>", "\n")
-                    
-                # generating blog section details
-                prevBlog = ""
-                section = genarateBlogSectionDetail(
-                    blogTopic,
-                    val,
-                    request.session["audience"],
-                    request.session["keywords"],
-                    prevBlog,
-                    request.user.profile,
-                )
-                
-                #  create a database record
-                blogSec = BlogSection.objects.create(
-                    title=val,
-                    body=section,
-                    blog=blog,
-                )
-                blogSec.save()
-                time.sleep(2)
-        return redirect("view-blog-generator", slug=blog.slug)
-
-    return render(request, "dashboard/selact-blog_section.html", context)
-
-
-@login_required
 def viewBlogGenerator(request, slug):
     try:
         blog = Blog.objects.get(slug=slug)
@@ -231,3 +152,30 @@ def viewBlogGenerator(request, slug):
     context["blogSections"] = blogSection
 
     return render(request, "dashboard/view-blog-generator.html", context)
+
+
+@login_required
+def createBlogFromTopic(request, uniqueId):
+    context = {}
+    try:
+        blog = Blog.objects.get(uniqueId=uniqueId)
+    except:
+        messages.error(request, "Blog not found")
+        return redirect("dashboard")
+
+    blogSections = genarateBlogtoSectionTitles(blog.title, blog.audience, blog.keywords)
+    if len(blogSections) > 0:
+        request.session["blogSections"] = blogSections
+        context["blogSections"] = blogSections
+    else:
+        messages.error(request, "Oops, you beat the AI try again")
+        return redirect("blog_topic")
+
+    if request.method == "POST":
+        for val in request.POST:
+            if not "csrfmiddlewaretoken" in val:  # Generation the blog section details
+                section = genarateBlogSectionDetail(val, blog.title, blog.audience, blog.keywords)
+                blogSec = BlogSection.objects.create(title=val, body=section, blog=blog)
+                blogSec.save()
+        return redirect("view_blog_generator", slug=blog.slug)
+    return render(request, "dashboard/selact-blog_section.html", context)

@@ -4,23 +4,23 @@
 {% block body %}
 
 <div class="container-fluid flex-grow-1 container-p-y">
-     <div class="layout-demo-wrapper">
-          <div class='row'>
-               <div class="col-lg-13">
-                    <div class="col-lg-10">
-                         <h2 class="mb-3">🙂 Your Blog is ready 😆</h2>
-                         <h2 class="mb-3">{{ blog.title }}</h2>
-                         <h5>Keywords: <span class="badge bg-dark">{{blog.keywords}}</span></h5>
-                         {% for section in blogSections %}
-                         <div class="mt-3">
-                              <h3>{{ section.title }}</h3>
-                              {{ section.body|safe }}
-                         </div>
-                         {% endfor %}
+    <div class="layout-demo-wrapper">
+        <div class='row'>
+            <div class="col-lg-13">
+                <div class="col-lg-10">
+                    <h4 class="mb-3">🙂 Your Blog is ready 😆</h4>
+                    <h4 class="mb-3">{{ blog.title }}</h4>
+                    <h6>Keywords: <span class="badge bg-dark">{{blog.keywords}}</span></h6>
+                    {% for section in blogSections %}
+                    <div class="mt-3">
+                        <h3>{{ section.title }}</h3>
+                        {{ section.body|safe }}
                     </div>
-               </div>
-          </div>
-     </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 

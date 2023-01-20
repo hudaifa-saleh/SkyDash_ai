@@ -4,8 +4,6 @@ from django.conf import settings
 
 openai.api_key = settings.OPENAI_API_KEY
 
-# blog_topics = []
-
 
 def genarateBlogtoTpicIdeas(audience, topic, keywords):
     blog_topics = []
@@ -65,14 +63,14 @@ def genarateBlogtoSectionTitles(audience, topic, keywords):
     return blog_section
 
 
-def genarateBlogSectionDetail(profile, blogTopic, sectionTopic, audience, keywords):
+def genarateBlogSectionDetail(blogTopic, sectionTopic, audience, keywords):
     response = openai.Completion.create(
         model="text-davinci-003",
-        prompt="Generate detailed blog section write up for the following blog section keading, using the blog title, audience and keywords provided.\nBlog Title: {}\nBlog Section Heading: {}\nBlog Title {}\nAudience: {}\nkeywords: \n".format(
+        prompt="Generate detailed blog section write up for the following blog section keading, using the blog title, audience and keywords provided.{}\nBlog Section Heading: {}\nBlog Title {}\nAudience: {}\nkeywords: \n".format(
             blogTopic, sectionTopic, audience, keywords
         ),
         temperature=0.8,
-        max_tokens=2000,
+        max_tokens=500,
         top_p=1,
         best_of=1,
         frequency_penalty=0,
@@ -81,22 +79,12 @@ def genarateBlogSectionDetail(profile, blogTopic, sectionTopic, audience, keywor
     if "choices" in response:
         if len(response["choices"]) > 0:
             res = response["choices"][0]["text"]
-            if not res == "":
-                cleanedRes = res.replace("\n", "<br>")
-                if profile.monthlyCount:
-                    oldCount = int(profile.monthlyCount)
-                else:
-                    oldCount = 0
-                oldCount += len(cleanedRes.split(" "))
-                profile.monthlyCount = str(oldCount)
-                profile.save()
-                return cleanedRes
-            else:
-                return ""
+            cleanedRes = res.replace("\n", "<br>")
+            return cleanedRes
         else:
-            return ""
+            res = []
     else:
-        return ""
+        res = []
 
 
 def checkCountAllowance(profile):
@@ -133,34 +121,3 @@ def checkCountAllowance(profile):
                 return False
         else:
             return True
-
-
-# def genarateBlogSectionHeadings(topic, keywords):
-#     response = openai.Completion.create(
-#         model="text-davinci-003",
-#         prompt="Generate Blog section heading and section titles  based on the following blog section topic.Topic:{}\nkeywords {} \n*".format(topic, keywords),
-#         temperature=0.8,
-#         max_tokens=300,
-#         top_p=1,
-#         best_of=1,
-#         frequency_penalty=0,
-#         presence_penalty=0,
-#     )
-#     if "choices" in response:
-#         if len(response["choices"]) > 0:
-#             res = response["choices"][0]["text"]
-#         else:
-#             res = None
-#     else:
-#         res = None
-#     return res
-
-
-# topic = "summer fashion ideas"
-# keywords = "summer, fashion, clothing"
-# res = genatate_blog_topic_ideas(topic, keywords).replace("\n", "")
-# b_list = res.split("*")
-# for blog in b_list:
-#     blog_topics.append(blog)
-#     print("")
-#     print(blog)

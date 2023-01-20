@@ -23,6 +23,7 @@ class Profile(models.Model):
     country = models.CharField(null=True, blank=True, max_length=100)
     postalCode = models.CharField(null=True, blank=True, max_length=100)
     profileImage = ResizedImageField(size=[200, 200], quality=90, upload_to="profileImage")
+    
     # Subscription Helpers
     monthlyCount = models.CharField(null=True, blank=True, max_length=100)
     subscribed = models.BooleanField(default=False)

@@ -3,13 +3,12 @@ from . import views
 
 urlpatterns = [
     path("dashboard/", views.home, name="dashboard"),
-    path("topic/", views.blogTopic, name="blog-topic"),
-    path("section/", views.blogSection, name="blog-section"),
-    # saveing the blog topic for future use creatBlogFromTopic
-    path("create/blog/from/topic/<str:uniqueId>/", views.creatBlogFromTopic, name="create-blog-from-topic"),
-    path("delete/blog/topic/<str:uniqueId>/", views.deleteBlogTopic, name="delete-blog-topic"),
-    path("save/blog/topic/<str:blogTopic>/", views.saveBlogTopic, name="save-blog-topic"),
-    path("use/blog/topic/<str:blogTopic>/", views.useBlogTopic, name="use-blog-topic"),
-    path("view/blog/generator/<slug:slug>/", views.viewBlogGenerator, name="view-blog-generator"),
-    
+    path("blog-topic/", views.blogTopic, name="blog_topic"),
+    path("blog-sections/", views.blogSection, name="blog_sections"),
+    # saveing the blog topic for future use
+    path("create-blog-from-topic/<str:uniqueId>/", views.createBlogFromTopic, name="create_blog_from_topic"),
+    path("delete-blog_topic/<str:uniqueId>/", views.deleteBlogTopic, name="delete_blog_topic"),
+    path("save-blog_topic/<str:blogTopic>/", views.saveBlogTopic, name="save_blog_topic"),
+    path("use-blog_topic/<str:blogTopic>/", views.useBlogTopic, name="use_blog_topic"),
+    path("view-blog-generator/<slug:slug>/", views.viewBlogGenerator, name="view_blog_generator"),
 ]
