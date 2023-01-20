@@ -96,6 +96,7 @@ def saveBlogTopic(request, blogTopic):
 @login_required
 def useBlogTopic(request, blogTopic):
     context = {}
+
     if "blogIdea" in request.session and "keywords" in request.session and "audience" in request.session:
         blog = Blog.objects.create(
             title=blogTopic,
@@ -108,6 +109,7 @@ def useBlogTopic(request, blogTopic):
         blogSections = genarateBlogtoSectionTitles(blogTopic, request.session["audience"], request.session["keywords"])
     else:
         return redirect("blog_topic")
+
     if len(blogSections) > 0:
         request.session["blogSections"] = blogSections  # Adding the section to the session
         context["blogSections"] = blogSections  # Adding the section to the context
@@ -122,6 +124,7 @@ def useBlogTopic(request, blogTopic):
                 blogSec = BlogSection.objects.create(title=val, body=section, blog=blog)
                 blogSec.save()
         return redirect("view_blog_generator", slug=blog.slug)
+
     return render(request, "dashboard/selact-blog_section.html", context)
 
 
