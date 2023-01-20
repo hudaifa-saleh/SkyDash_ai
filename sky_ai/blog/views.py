@@ -30,12 +30,14 @@ def home(request):
         else:
             emptyBlog.append(blog)
 
+    allowance = checkCountAllowance(request.user.profile)
     context = {}
     context["numBlogs"] = len(completedBlog)
     context["monthCount"] = str(monthCount)
     context["countReset"] = "12 July 2023"
     context["emptyBlog"] = emptyBlog
     context["completedBlog"] = completedBlog
+    context["allowance"] = allowance
     return render(request, "dashboard/home.html", context)
 
 
