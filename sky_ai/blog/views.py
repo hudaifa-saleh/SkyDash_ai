@@ -186,7 +186,7 @@ def createBlogFromTopic(request, uniqueId):
     return render(request, "dashboard/selact-blog_section.html", context)
 
 
-########################### Billing #######################################
-@login_required
-def billing(request):
-    return render(request, "dashboard/billing.html", {})
+# ########################### Billing #######################################
+# @login_required
+# def billing(request):
+#     return render(request, "dashboard/billing.html", {})
