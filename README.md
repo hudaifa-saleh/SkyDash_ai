@@ -22,9 +22,10 @@ This repository contains all the code related to SkyDash AI's blog writing solut
 
 6. Edit and proofread: Review the post for any errors or inconsistencies, and make sure it is up to your standards before publishing it.
 
+# Contributons 
+[Please read the](contributing.md)
 
-
-## Backend
+<!-- ## Backend
 
 - Django
 - postgesql
@@ -38,4 +39,4 @@ This repository contains all the code related to SkyDash AI's blog writing solut
 - css
 - jacescript
 - bootstrab
-- template
+- template -->
