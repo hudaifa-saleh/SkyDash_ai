@@ -1,7 +1,7 @@
 import os
 import openai
 from django.conf import settings
-from dashboard.models import Profile as profile
+from profiles.models import Profile as profile
 
 openai.api_key = settings.OPENAI_API_KEY
 

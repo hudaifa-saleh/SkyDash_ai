@@ -31,7 +31,7 @@ INSTALLED_APPS = [
     # Our apps
     "landing.apps.LandingConfig",
     "authantication.apps.AuthanticationConfig",
-    "dashboard.apps.DashboardConfig",
+    "profiles.apps.ProfilesConfig",
     "blog.apps.BlogConfig",
     "crispy_forms",
 ]
