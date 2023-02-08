@@ -29,7 +29,7 @@ def home(request):
             completedBlog.append(blog)
         else:
             emptyBlog.append(blog)
-
+  
     allowance = checkCountAllowance(request.user.profile)
     context = {}
     context["numBlogs"] = len(completedBlog)

@@ -1,6 +1,7 @@
 # contributions
 
-* Read the code of conduct
+* Read the README.md
+<!-- * Read the code of conduct -->
 * Read the contributons guidelines
 * Read the development setup guide
 * Get setup locally

@@ -1,22 +1,17 @@
-from django.shortcuts import redirect, render
-from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, redirect
+from django.views import View
+from django.contrib.auth.mixins import LoginRequiredMixin
+from .forms import ProfileForm, ProfileImageForm
+from .models import Profile
 
-from .forms import *
-from .models import *
 
-
-@login_required
-def profile(request):
-    context = {}
-
-    if request.method == "GET":
+class ProfileView(LoginRequiredMixin, View):
+    def get(self, request, *args, **kwargs):
         form = ProfileForm(instance=request.user.profile)
         image_form = ProfileImageForm(instance=request.user.profile)
-        context["form"] = form
-        context["image_form"] = image_form
-        return render(request, "dashboard/profile.html", context)
+        return render(request, "dashboard/profile.html", {"form": form, "image_form": image_form})
 
-    if request.method == "POST":
+    def post(self, request, *args, **kwargs):
         form = ProfileForm(request.POST, instance=request.user.profile)
         image_form = ProfileImageForm(request.POST, request.FILES, instance=request.user.profile)
         if form.is_valid():
@@ -25,5 +20,4 @@ def profile(request):
         if image_form.is_valid():
             image_form.save()
             return redirect("profile")
-
-    return render(request, "dashboard/profile.html", context)
+        return render(request, "dashboard/profile.html", {"form": form})

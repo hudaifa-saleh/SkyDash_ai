@@ -23,20 +23,20 @@ This repository contains all the code related to SkyDash AI's blog writing solut
 6. Edit and proofread: Review the post for any errors or inconsistencies, and make sure it is up to your standards before publishing it.
 
 # Contributons 
-[Please read the](contributing.md)
+[How to contribute to our open source project](contributing.md)
 
-<!-- ## Backend
+# Development guidelines
 
-- Django
-- postgesql
-- django-crispy-forms
-- black
-- openai
+     https://github.com/huzaifa-salih/SkyDash_ai.git
 
-## Frontend
+     make sure your environment activate
+          python3 -m venv venv 
+          source venv/bin/activate 
+           
+     install the requeriments.txt file 
+          pip3 install -r requirements.txt
 
-- html
-- css
-- jacescript
-- bootstrab
-- template -->
+     Run the migrations
+          python3 manage.py makemigrations
+          python3 manage.py migrate
+
