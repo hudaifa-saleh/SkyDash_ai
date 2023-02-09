@@ -105,7 +105,8 @@ def useBlogTopic(request, blogTopic):
             audience=request.session["audience"],
             profile=request.user.profile,
         )
-        blog.save()
+        # blog.save()
+        # blog.delete()
         blogSections = genarateBlogtoSectionTitles(blogTopic, request.session["audience"], request.session["keywords"])
     else:
         return redirect("blog_topic")
