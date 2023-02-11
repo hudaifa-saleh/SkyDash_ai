@@ -1,6 +1,6 @@
 import time
 from django.shortcuts import render, redirect
-from .functions import (
+from .utils_ai import (
     checkCountAllowance,
     genarateBlogSectionDetail,
     genarateBlogtoSectionTitles,
@@ -9,6 +9,41 @@ from .functions import (
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .models import Blog, BlogSection
+
+
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import TemplateView
+
+
+class HomeView(LoginRequiredMixin, TemplateView):
+    template_name = "dashboard/home.html"
+
+    def get(self, request, *args, **kwargs):
+        emptyBlog = []
+        completedBlog = []
+        monthCount = 0
+        blogs = Blog.objects.filter(profile=request.user.profile)
+        for blog in blogs:
+            sections = BlogSection.objects.filter(blog=blog)
+            if sections.exists():
+                blogWords = 0
+                for section in sections:
+                    blogWords += int(section.wordCount)
+                    monthCount += int(section.wordCount)
+                blog.wordCount = str(blogWords)
+                blog.save()
+                completedBlog.append(blog)
+            else:
+                emptyBlog.append(blog)
+        allowance = checkCountAllowance(request.user.profile)
+        context = {}
+        context["numBlogs"] = len(completedBlog)
+        context["monthCount"] = request.user.profile.monthlyCount
+        context["countReset"] = "12 July 2023"
+        context["emptyBlog"] = emptyBlog
+        context["completedBlog"] = completedBlog
+        context["allowance"] = allowance
+        return render(request, self.template_name, context)
 
 
 @login_required
@@ -29,7 +64,7 @@ def home(request):
             completedBlog.append(blog)
         else:
             emptyBlog.append(blog)
-  
+
     allowance = checkCountAllowance(request.user.profile)
     context = {}
     context["numBlogs"] = len(completedBlog)

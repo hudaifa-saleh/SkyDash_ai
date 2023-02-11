@@ -1,19 +1,9 @@
-from django.shortcuts import redirect, render
+from django.views import View
+from django.shortcuts import render, redirect
+from django.contrib import auth, messages
 from django.contrib.auth.models import User
-from django.contrib import auth
-
-# from django.contrib.auth import authenticate  # , login, logout
-from django.contrib import messages
-from django.contrib.auth.decorators import login_required, user_passes_test
-
-
-def anonymous_required(function=None, redirect_url=None):
-    if not redirect_url:
-        redirect_url = "dashboard"
-    actual_decorator = user_passes_test(lambda u: u.is_anonymous, login_url=redirect_url)
-    if function:
-        return actual_decorator(function)
-    return actual_decorator
+from django.contrib.auth.decorators import login_required
+from .decorators import anonymous_required
 
 
 @anonymous_required
