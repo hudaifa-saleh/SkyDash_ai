@@ -1,11 +1,11 @@
 import os
 from pathlib import Path
-from django.contrib import messages
+
 from decouple import config
+from django.contrib import messages
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
@@ -17,7 +17,6 @@ SECRET_KEY = config("SECRET_KEY")
 DEBUG = config("DEBUG", default=False, cast=bool)
 
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -66,7 +65,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "sky_ai.wsgi.application"
 
-
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
@@ -76,7 +74,6 @@ DATABASES = {
         "NAME": BASE_DIR / "db.sqlite3",
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
@@ -96,7 +93,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
@@ -108,15 +104,14 @@ USE_I18N = True
 
 USE_TZ = True
 
-
 # LOGIN_URL LOGIN_REDIRECT_URL
 
-# LOGIN_URL = "/login/"
+LOGIN_URL = "/login/"
 
-# LOGIN_REDIRECT_URL = "/"
+LOGIN_REDIRECT_URL = "/"
 
 # django email settings backend
-# EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
 # # django email settings
 # EMAIL_HOST = "localhost"
@@ -127,10 +122,9 @@ USE_TZ = True
 # DEFAULT_FROM_EMAIL = ""
 
 
-# LOGIN_URL_ERROR_MESSAGE = "Please enter a correct username and password."
+LOGIN_URL_ERROR_MESSAGE = "Please enter a correct username and password."
 
-# LOGIN_REDIRECT_URL_ERROR_MESSAGE = "Please enter a correct username and password."
-
+LOGIN_REDIRECT_URL_ERROR_MESSAGE = "Please enter a correct username and password."
 
 DJANGORESIZED_DEFAULT_SIZE = [1920, 1080]
 DJANGORESIZED_DEFAULT_SCALE = 0.5
@@ -140,7 +134,6 @@ DJANGORESIZED_DEFAULT_FORCE_FORMAT = "JPEG"
 DJANGORESIZED_DEFAULT_FORMAT_EXTENSIONS = {"JPEG": ".jpg"}
 DJANGORESIZED_DEFAULT_NORMALIZE_ROTATION = True
 
-
 MESSAGE_TAGS = {
     messages.DEBUG: "info",
     messages.INFO: "info",
@@ -148,7 +141,6 @@ MESSAGE_TAGS = {
     messages.WARNING: "warning",
     messages.ERROR: "danger",
 }
-
 
 STATIC_URL = "/static/"
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "static/")]
@@ -161,6 +153,5 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "uploads")
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
-
 
 OPENAI_API_KEY = config("OPENAI_API_KEY")

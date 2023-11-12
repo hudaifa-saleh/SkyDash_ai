@@ -1,8 +1,8 @@
-from django.views import View
-from django.shortcuts import render, redirect
 from django.contrib import auth, messages
-from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
+from django.shortcuts import render, redirect
+
 from .decorators import anonymous_required
 
 

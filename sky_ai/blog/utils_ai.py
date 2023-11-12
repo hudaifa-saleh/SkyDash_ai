@@ -1,7 +1,5 @@
-import os
 import openai
 from django.conf import settings
-from profiles.models import Profile as profile
 
 openai.api_key = settings.OPENAI_API_KEY
 
@@ -11,7 +9,9 @@ def genarateBlogtoTpicIdeas(audience, topic, keywords):
 
     response = openai.Completion.create(
         model="text-davinci-003",
-        prompt="Generate 8 Blog topic ideas on the following topic: {}\naudience \nkeywords {} \n*".format(audience, topic, keywords),
+        prompt="Generate 8 Blog topic ideas on the following topic: {}\naudience \nkeywords {} \n*".format(audience,
+                                                                                                           topic,
+                                                                                                           keywords),
         temperature=0.8,
         max_tokens=300,
         top_p=1,
@@ -40,7 +40,8 @@ def genarateBlogtoSectionTitles(audience, topic, keywords):
 
     response = openai.Completion.create(
         model="text-davinci-003",
-        prompt="Generate Adequate blog section titles for the provided blog topic audience and keywords: {}\naudience \n{}keywords {}\n*".format(audience, topic, keywords),
+        prompt="Generate Adequate blog section titles for the provided blog topic audience and keywords: {}\naudience \n{}keywords {}\n*".format(
+            audience, topic, keywords),
         temperature=0.8,
         max_tokens=300,
         top_p=1,
