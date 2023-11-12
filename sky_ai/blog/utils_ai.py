@@ -4,7 +4,7 @@ from django.conf import settings
 openai.api_key = settings.OPENAI_API_KEY
 
 
-def genarateBlogtoTpicIdeas(audience, topic, keywords):
+def generate_blog_to_topic_ideas(audience, topic, keywords):
     blog_topics = []
 
     response = openai.Completion.create(
@@ -35,7 +35,7 @@ def genarateBlogtoTpicIdeas(audience, topic, keywords):
     return blog_topics
 
 
-def genarateBlogtoSectionTitles(audience, topic, keywords):
+def generate_blog_to_section_titles(audience, topic, keywords):
     blog_section = []
 
     response = openai.Completion.create(
@@ -65,7 +65,7 @@ def genarateBlogtoSectionTitles(audience, topic, keywords):
     return blog_section
 
 
-def genarateBlogSectionDetail(blogTopic, sectionTopic, audience, keywords, profile):
+def generate_blog_section_detail(blogTopic, sectionTopic, audience, keywords, profile):
     response = openai.Completion.create(
         model="text-davinci-003",
         prompt="Generate detailed blog section write up for the following blog section keading, using the blog title, audience and keywords provided.{}\nBlog Section Heading: {}\nBlog Title {}\nAudience: {}\nkeywords: \n".format(
@@ -99,7 +99,7 @@ def genarateBlogSectionDetail(blogTopic, sectionTopic, audience, keywords, profi
         return ""
 
 
-def checkCountAllowance(profile):
+def check_count_allowance(profile):
     if profile.subscribed:
         type = profile.subscriptionType
         if type == "free":
